@@ -1,0 +1,229 @@
+import axios from 'axios'
+
+/**
+ * The default subreddit to fetch images from.
+ * @type {String}
+ */
+export const DEFAULT_SUBREDDIT = 'pics'
+
+export const SORT_OPTIONS = {
+  all: 'all',
+  year: 'year',
+  month: 'month',
+  day: 'day',
+  hour: 'hour '
+}
+
+/**
+ * [fetchImages description]
+ * @param  {[type]}  [subreddit=DEFAULT_SUBREDDIT] [description]
+ * @return {Promise}                               [description]
+ */
+async function fetchImages (subreddit = DEFAULT_SUBREDDIT) {
+  try {
+    const url = _replaceSubredditName(subreddit)
+    console.log(url)
+    const result = await axios.get(url)
+    return _fetchImagesUrls(result)
+  } catch (error) {
+    return `An error occurred trying to fetch images from ${subreddit}. Error: ${error}`
+  }
+}
+
+/**
+ * Fetches new images from a subreddit
+ *
+ * @param  {[type]}  [subreddit=DEFAULT_SUBREDDIT] [description]
+ * @return {Promise}                               [description]
+ */
+export async function fetchNewImages (subreddit = DEFAULT_SUBREDDIT) {
+  try {
+    const url = _replaceSubredditName(subreddit, { order: 'new' })
+    return await axios.get(url)
+  } catch (error) {
+    return `An error occurred trying to fetch new images from ${subreddit}. Error: ${error}`
+  }
+}
+
+/**
+ * Fetches the rising images from a subreddit
+ *
+ * @param  {[type]}  [subreddit=DEFAULT_SUBREDDIT] [description]
+ * @return {Promise}                               [description]
+ */
+export async function fetchRisingImages (subreddit = DEFAULT_SUBREDDIT) {
+  try {
+    const url = _replaceSubredditName(subreddit, { order: 'rising' })
+    return await axios.get(url)
+  } catch (error) {
+    return `An error occurred trying to fetch rising images from ${subreddit}. Error: ${error}`
+  }
+}
+
+/**
+ * Fetches the top images from a subreddit.
+ *
+ * @param  {[type]}  [subreddit=DEFAULT_SUBREDDIT] [description]
+ * @param  {String}  [sort=null]
+ *         The sorting option.
+ *         Sorting can be one of the following:
+ *          - 'all' => Fetches the top images of all time from the provided
+ *            subreddit
+ *          - 'week' => Fetches the top images from the last week
+ *          - 'day' => Fetches the top images from the last day
+ *          - 'month' => Fetches the top images from the last month
+ *          - 'year' => Fetches the top images from the last year
+ * @return {Promise}                               [description]
+ */
+export async function fetchTopImages (subreddit = DEFAULT_SUBREDDIT, sort = null) {
+  try {
+    const url = _replaceSubredditName(subreddit, { order: 'top', sort: sort })
+    return await axios.get(url)
+  } catch (error) {
+    return `An error occurred trying to fetch top images from ${subreddit}. Error: ${error}`
+  }
+}
+
+/**
+ * Fetches the controversial images from the specified subreddit.
+ *
+ * @param  {[type]}  [subreddit=DEFAULT_SUBREDDIT] [description]
+ * @param  {String}  [sort=null]
+ *         Check the docs of the method @fetchTopImages for more info about
+ *         this argument.
+ * @return {Promise}                               [description]
+ */
+export async function fetchControversialImages (subreddit = DEFAULT_SUBREDDIT, sort = null) {
+  try {
+    const url = _replaceSubredditName(subreddit, { order: 'controversial', sort: sort })
+    return await axios.get(url)
+  } catch (error) {
+    return `An error occurred trying to fetch top images from ${subreddit}. Error: ${error}`
+  }
+}
+
+// PRIVATE METHODS
+
+/**
+ * [_replaceName description]
+ * @param  {[type]} name         [description]
+ * @param  {Object} [options={}] [description]
+ * @return {[type]}              [description]
+ */
+function _replaceSubredditName (name, options = {}) {
+  return _redditApiEndpointUrl(options).replace('{NAME}', name)
+}
+
+/**
+ * Creates the reddit's API endpoints based on the options received.
+ *
+ * @param  {Object} [options={}] [description]
+ * @return {[type]}              [description]
+ */
+function _redditApiEndpointUrl (options = {}) {
+  let url = `https://www.reddit.com/r/{NAME}`
+
+  if (options.sort) {
+    const sort = options.sort
+    const order = options.order
+    url += `/${order}/.json?sort=${order}&t=${sort}/`
+    return url
+  } else if (options.order) {
+    url += `/${options.order}/.json`
+    return url
+  } else {
+    url += '.json'
+    return url
+  }
+}
+
+/**
+ * Returns an array of images URLs from a result of calling a promise
+ *
+ * @param  {Promise} promiseData [description]
+ * @return {[type]}             [description]
+ */
+function _fetchImagesUrls (promiseData) {
+  const data = promiseData.data.data
+  if (_isNull(data)) {
+    throw new PromiseException('Promise has no data!')
+  }
+
+  const dataChildren = data.children
+  if (_isNull(dataChildren)) {
+    throw new PromiseException('Promise has no data children!')
+  }
+
+  // TODO: Later this will have the other properties such as title, id, author,
+  // etc
+  //
+  // TODO: Understand why 401 Unauthorized?
+  const imageUrls = []
+  dataChildren.forEach(child => {
+    const childData = child.data
+    if (!_isNull(childData)) {
+      const { title, id, author, score, preview } = childData // TODO: to be used later
+      if (!_isNull(preview)) {
+        const images = preview.images
+        if (!_isNull(images)) {
+          images.forEach(img => {
+            if (!_isNull(img.resolutions)) {
+              const filteredResolutionUrl =
+                _findAcceptableImageResolutionUrl(img.resolutions)
+              imageUrls.push(filteredResolutionUrl.url)
+            }
+          })
+        }
+      }
+    }
+  })
+
+  return imageUrls
+}
+
+function _isNull (object) {
+  return object === null || object === undefined
+}
+
+function PromiseException (message) {
+  this.message = message
+  this.name = 'Promise Exception'
+}
+
+/**
+ * Tries to find an acceptable resolution URL from an image.
+ *
+ * @param  {Object} resolutions
+ *  This accepts objects with the format:
+ *  {
+ *    url: string,
+ *    width: number,
+ *    height: number
+ *  }
+ *
+ * @return {[type]}             [description]
+ */
+function _findAcceptableImageResolutionUrl (resolutions) {
+  return resolutions.find(res => {
+    const { width, height } = res
+    return _isWithinWidthRange(width) && _isWithHeightRange(height)
+  })
+}
+
+function _isWithinWidthRange (width) {
+  return width >= MIN_IMAGE_ACCEPTABLE_WIDTH &&
+    width <= MAX_IMAGE_ACCEPTABLE_WIDTH
+}
+
+function _isWithHeightRange (height) {
+  return height >= MIN_IMAGE_ACCEPTABLE_HEIGHT &&
+    height <= MAX_IMAGE_ACCEPTABLE_HEIGHT
+}
+
+const MIN_IMAGE_ACCEPTABLE_WIDTH = 0
+const MAX_IMAGE_ACCEPTABLE_WIDTH = 640
+
+const MIN_IMAGE_ACCEPTABLE_HEIGHT = 0
+const MAX_IMAGE_ACCEPTABLE_HEIGHT = 1000
+
+export default fetchImages
