@@ -1,86 +1,165 @@
-#root {
+#root, .wrapper {
   height: 100%;
 }
 
-.asd {
-  width: 100px;
-  height: 100px;
-  background-size: cover;
-  background-position: center;
-}
+.flex {
+  display: flex; }
 
-html, body {
-  width: 100%;
-  height: 100vh;
+.flex--space-between {
+  justify-content: space-between; }
+
+.flex--align-center {
+  align-items: center; }
+
+.flex--align-top {
+  align-items: flex-start; }
+
+.flex--wrap {
+  flex-wrap: wrap; }
+
+body, html {
   margin: 0;
   padding: 0;
-  font-family: 'Droid Serif', serif;
-}
-
-.container {
-  max-width: 90%;
-  margin: 0 auto;
-  position:relative;
-  height: 100%;
-  overflow-x: hidden;
-}
-
-/* Image styles*/
-
-.reddit_image {
-  height: 250px;
-  width: 250px;
-  background-size: cover;
-  background-position: center;
-  border-radius: 50%;
-  margin: 15px;
-}
-
-.image_info {
+  height: 100vh;
   width: 100%;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400; }
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+
+#wrapper {
   height: 100%;
-  background-color: white;
-  border-radius: 50%;
-  opacity: 0;
-}
+  width: 100%; }
 
-.image_info:hover {
-  opacity: 0.3;
-}
+.closed {
+  display: none; }
 
-.image_title {
+.opened {
+  display: block; }
+
+header {
+  height: 30%;
+  background-color: #475977;
+  padding: 30px 50px; }
+
+#sidebar_nav {
+  color: white;
+  font-size: 30px; }
+  #sidebar_nav:hover {
+    cursor: pointer; }
+  #sidebar_nav span {
+    font-size: 0.5em; }
+  #sidebar_nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.5em;
+    opacity: 0.5;
+    transition: opacity 0.2s ease-in-out; }
+    #sidebar_nav ul li a:hover {
+      text-decoration: underline;
+      opacity: 1; }
+  #sidebar_nav #sidebar_links {
+    text-align: right; }
+
+#reddit_options h1 {
   text-align: center;
   text-transform: uppercase;
-}
+  color: white;
+  font-size: 45px;
+  letter-spacing: 2px;
+  font-weight: 300; }
+#reddit_options ul {
+  text-transform: uppercase;
+  text-align: center; }
+  #reddit_options ul li {
+    color: white;
+    font-weight: 100;
+    display: inline;
+    margin: 0px 7px;
+    font-size: 12px;
+    letter-spacing: 1px; }
+    #reddit_options ul li:last-child {
+      margin-right: 0px; }
+    #reddit_options ul li:first-child {
+      margin-left: 0px; }
+    #reddit_options ul li a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.5;
+      transition: opacity 0.2s ease-in-out; }
+      #reddit_options ul li a:hover {
+        text-decoration: underline;
+        opacity: 1;
+        transition: opacity 0.2s ease-in-out; }
 
-.images_wrapper {
+#reddit_sort_options {
+  font-size: 30px;
+  align-self: flex-end; }
+  #reddit_sort_options ul {
+    font-size: 0.35em;
+    text-transform: uppercase; }
+    #reddit_sort_options ul li {
+      margin-bottom: 10px;
+      letter-spacing: 2px; }
+      #reddit_sort_options ul li a {
+        color: white;
+        text-decoration: none;
+        opacity: 0.5;
+        transition: opacity 0.2s ease-in-out; }
+        #reddit_sort_options ul li a:hover {
+          text-decoration: underline;
+          opacity: 1; }
+
+#section--gallery {
+  height: 100%; }
+  #section--gallery .reddit_image {
+    background-size: cover;
+    background-position: center;
+    background-color: pink;
+    max-height: 50%;
+    flex-grow: 1;
+    min-width: 30%;
+    position: relative; }
+    #section--gallery .reddit_image:hover {
+      cursor: pointer; }
+    #section--gallery .reddit_image .hover-state {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      background-color: #4A7B9D;
+      opacity: 0.9; }
+      #section--gallery .reddit_image .hover-state #image_description {
+        text-align: right;
+        margin-right: 30px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: white;
+        font-size: 15px; }
+        #section--gallery .reddit_image .hover-state #image_description p:nth-child(2) {
+          font-size: 12px; }
+        #section--gallery .reddit_image .hover-state #image_description p:nth-child(3) {
+          font-size: 12px; }
+  @media (max-width: 360px) {
+    #section--gallery {
+      flex-direction: column; } }
+
+footer {
+  height: 180px;
+  background-color: #475977;
   display: flex;
-  flex-wrap: wrap;
-}
+  flex-direction: row-reverse; }
 
-.select_feed {
-  margin: 0;
-  padding: 0;
-}
-
-.select_feed {
-  list-style: none;
-  display: inline-block;
-}
-
-/* Sidebar styles */
-
-.sidebar_toggle {
-  position: absolute;
-  right: 0%;
-  top: 0%;
-  font-size: 20px;
-}
-
-.sidebar_nav {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  height: 100%;
-}
+#footer_copywrite {
+  align-self: center;
+  margin-right: 20px;
+  color: white;
+  font-size: 25px;
+  letter-spacing: 1px;
+  text-align: right; }
+  #footer_copywrite p {
+    font-size: 0.4em; }

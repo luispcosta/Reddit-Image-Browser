@@ -4,7 +4,7 @@ import axios from 'axios'
  * The default subreddit to fetch images from.
  * @type {String}
  */
-export const DEFAULT_SUBREDDIT = 'pics'
+export const DEFAULT_SUBREDDIT = 'earthporn'
 
 export const SORT_OPTIONS = {
   all: 'all',
@@ -22,9 +22,8 @@ export const SORT_OPTIONS = {
 async function fetchImages (subreddit = DEFAULT_SUBREDDIT) {
   try {
     const url = _replaceSubredditName(subreddit)
-    console.log(url)
     const result = await axios.get(url)
-    return _fetchImagesUrls(result)
+    return _fetchImageData(result)
   } catch (error) {
     return `An error occurred trying to fetch images from ${subreddit}. Error: ${error}`
   }
@@ -126,13 +125,13 @@ function _redditApiEndpointUrl (options = {}) {
   if (options.sort) {
     const sort = options.sort
     const order = options.order
-    url += `/${order}/.json?sort=${order}&t=${sort}/`
+    url += `/${order}/.json?sort=${order}&t=${sort}&raw_json=1/`
     return url
   } else if (options.order) {
-    url += `/${options.order}/.json`
+    url += `/${options.order}/.json?raw_json=1`
     return url
   } else {
-    url += '.json'
+    url += '.json?raw_json=1'
     return url
   }
 }
@@ -143,7 +142,7 @@ function _redditApiEndpointUrl (options = {}) {
  * @param  {Promise} promiseData [description]
  * @return {[type]}             [description]
  */
-function _fetchImagesUrls (promiseData) {
+function _fetchImageData (promiseData) {
   const data = promiseData.data.data
   if (_isNull(data)) {
     throw new PromiseException('Promise has no data!')
@@ -154,15 +153,19 @@ function _fetchImagesUrls (promiseData) {
     throw new PromiseException('Promise has no data children!')
   }
 
-  // TODO: Later this will have the other properties such as title, id, author,
-  // etc
-  //
-  // TODO: Understand why 401 Unauthorized?
-  const imageUrls = []
+  const imageData = []
   dataChildren.forEach(child => {
     const childData = child.data
     if (!_isNull(childData)) {
-      const { title, id, author, score, preview } = childData // TODO: to be used later
+      const { title, id, author, score, preview } = childData
+
+      const object = {
+        title: title,
+        id: id,
+        author: author,
+        score: score,
+        url: null
+      }
       if (!_isNull(preview)) {
         const images = preview.images
         if (!_isNull(images)) {
@@ -170,15 +173,18 @@ function _fetchImagesUrls (promiseData) {
             if (!_isNull(img.resolutions)) {
               const filteredResolutionUrl =
                 _findAcceptableImageResolutionUrl(img.resolutions)
-              imageUrls.push(filteredResolutionUrl.url)
+              if (!_isNull(filteredResolutionUrl)) {
+                object.url = decodeURI(filteredResolutionUrl.url)
+              }
             }
           })
         }
       }
+      imageData.push(object)
     }
   })
 
-  return imageUrls
+  return imageData
 }
 
 function _isNull (object) {
@@ -220,10 +226,10 @@ function _isWithHeightRange (height) {
     height <= MAX_IMAGE_ACCEPTABLE_HEIGHT
 }
 
-const MIN_IMAGE_ACCEPTABLE_WIDTH = 0
+const MIN_IMAGE_ACCEPTABLE_WIDTH = 200
 const MAX_IMAGE_ACCEPTABLE_WIDTH = 640
 
-const MIN_IMAGE_ACCEPTABLE_HEIGHT = 0
+const MIN_IMAGE_ACCEPTABLE_HEIGHT = 200
 const MAX_IMAGE_ACCEPTABLE_HEIGHT = 1000
 
 export default fetchImages
