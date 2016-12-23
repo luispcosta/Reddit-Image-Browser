@@ -21,6 +21,7 @@ class RedditPresenterComponent extends Component {
           <li><span onClick={this.updateImagesTypes}>Top</span></li>
           <li><span onClick={this.updateImagesTypes}>Controversial</span></li>
           <li><span onClick={this.updateImagesTypes}>New</span></li>
+          <li><span onClick={this.updateImagesTypes}>Hot</span></li>
         </ul>
       </div>
     )

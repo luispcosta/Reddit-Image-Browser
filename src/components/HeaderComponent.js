@@ -4,6 +4,16 @@ import SideBarComponent from './SideBarComponent'
 
 class HeaderComponent extends Component {
 
+  constructor (props) {
+    super(props)
+
+    this.updateImagesTypes = this.updateImagesTypes.bind(this)
+  }
+
+  updateImagesTypes (newImagesType) {
+    this.props.updateImagesTypes(newImagesType)
+  }
+
   render () {
     return (
       <header className="flex flex--space-between flex--align-top">
@@ -19,7 +29,7 @@ class HeaderComponent extends Component {
         </div>
 
         <RedditPresenterComponent
-          updateImagesType={this.props.updateImagesType}
+          updateImagesTypes={this.updateImagesTypes}
           subreddit={this.props.redditName}
         />
 

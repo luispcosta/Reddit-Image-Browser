@@ -38,7 +38,8 @@ async function fetchImages (subreddit = DEFAULT_SUBREDDIT) {
 export async function fetchNewImages (subreddit = DEFAULT_SUBREDDIT) {
   try {
     const url = _replaceSubredditName(subreddit, { order: 'new' })
-    return await axios.get(url)
+    const result = await axios.get(url)
+    return _fetchImageData(result)
   } catch (error) {
     return `An error occurred trying to fetch new images from ${subreddit}. Error: ${error}`
   }
@@ -53,7 +54,24 @@ export async function fetchNewImages (subreddit = DEFAULT_SUBREDDIT) {
 export async function fetchRisingImages (subreddit = DEFAULT_SUBREDDIT) {
   try {
     const url = _replaceSubredditName(subreddit, { order: 'rising' })
-    return await axios.get(url)
+    const result = await axios.get(url)
+    return _fetchImageData(result)
+  } catch (error) {
+    return `An error occurred trying to fetch rising images from ${subreddit}. Error: ${error}`
+  }
+}
+
+/**
+ * Fetches the hot images from a subreddit
+ *
+ * @param  {[type]}  [subreddit=DEFAULT_SUBREDDIT] [description]
+ * @return {Promise}                               [description]
+ */
+export async function fetchHotImages (subreddit = DEFAULT_SUBREDDIT) {
+  try {
+    const url = _replaceSubredditName(subreddit, { order: 'hot' })
+    const result = await axios.get(url)
+    return _fetchImageData(result)
   } catch (error) {
     return `An error occurred trying to fetch rising images from ${subreddit}. Error: ${error}`
   }
@@ -77,7 +95,8 @@ export async function fetchRisingImages (subreddit = DEFAULT_SUBREDDIT) {
 export async function fetchTopImages (subreddit = DEFAULT_SUBREDDIT, sort = null) {
   try {
     const url = _replaceSubredditName(subreddit, { order: 'top', sort: sort })
-    return await axios.get(url)
+    const result = await axios.get(url)
+    return _fetchImageData(result)
   } catch (error) {
     return `An error occurred trying to fetch top images from ${subreddit}. Error: ${error}`
   }
@@ -95,7 +114,8 @@ export async function fetchTopImages (subreddit = DEFAULT_SUBREDDIT, sort = null
 export async function fetchControversialImages (subreddit = DEFAULT_SUBREDDIT, sort = null) {
   try {
     const url = _replaceSubredditName(subreddit, { order: 'controversial', sort: sort })
-    return await axios.get(url)
+    const result = await axios.get(url)
+    return _fetchImageData(result)
   } catch (error) {
     return `An error occurred trying to fetch top images from ${subreddit}. Error: ${error}`
   }

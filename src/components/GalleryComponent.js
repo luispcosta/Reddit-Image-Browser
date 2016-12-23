@@ -1,5 +1,5 @@
 import React, { Component } from 'react' // eslint-disable-line no-unused-vars
-import fetchImages from './../connectors/Api'
+import fetchImages, { fetchHotImages, fetchNewImages, fetchRisingImages, fetchTopImages, fetchControversialImages } from './../connectors/Api'
 
 import ImageComponent from './ImageComponent' // eslint-disable-line no-unused-vars
 
@@ -11,6 +11,25 @@ class GalleryComponent extends Component {
       images: [],
       loading: true
     }
+
+    this.fetchImagesOfType = this.fetchImagesOfType.bind(this)
+  }
+
+  async fetchImagesOfType (subreddit, imagesType) {
+    switch (imagesType) {
+      case 'hot':
+        return await fetchHotImages(subreddit)
+      case 'new':
+        return await fetchNewImages(subreddit)
+      case 'controversial':
+        return await fetchControversialImages(subreddit)
+      case 'rising':
+        return await fetchRisingImages(subreddit)
+      case 'top':
+        return await fetchTopImages(subreddit)
+      default:
+        return []
+    }
   }
 
   async componentWillMount () {
@@ -18,6 +37,18 @@ class GalleryComponent extends Component {
     this.setState({
       images: images,
       loading: false
+    })
+  }
+
+  async componentWillReceiveProps (newProps) {
+    let images = []
+    if (newProps.imagesType) {
+      images = await this.fetchImagesOfType(newProps.subreddit, newProps.imagesType)
+    } else {
+      images = await fetchImages(newProps.subreddit)
+    }
+    this.setState({
+      images: images
     })
   }
 
