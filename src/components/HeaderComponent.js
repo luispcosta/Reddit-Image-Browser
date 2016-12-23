@@ -11,6 +11,7 @@ class HeaderComponent extends Component {
     this.updateImagesTypes = this.updateImagesTypes.bind(this)
     this.handleSubredditChange = this.handleSubredditChange.bind(this)
     this.renderImagesSorter = this.renderImagesSorter.bind(this)
+    this.handleSortingChange = this.handleSortingChange.bind(this)
 
     this.state = {
       shouldPresentSortOptions: false
@@ -32,9 +33,16 @@ class HeaderComponent extends Component {
     this.props.handleSubredditChange(newSubreddit)
   }
 
+  handleSortingChange (sortType) {
+    this.props.handleSortingChange(sortType)
+  }
+
   renderImagesSorter () {
     if (this.state.shouldPresentSortOptions) {
-      return <RedditImagesSortOptionsComponent sortOptions={this.props.sortOptions}/>
+      return <RedditImagesSortOptionsComponent
+        sortOptions={this.props.sortOptions}
+        handleSortingChange={this.handleSortingChange}
+      />
     }
   }
 
@@ -62,7 +70,8 @@ HeaderComponent.propTypes = {
   updateImagesType: React.PropTypes.func,
   handleSubredditChange: React.PropTypes.func,
   availableSubReddits: React.PropTypes.array,
-  sortOptions: React.PropTypes.array
+  sortOptions: React.PropTypes.array,
+  handleSortingChange: React.PropTypes.func
 }
 
 export default HeaderComponent

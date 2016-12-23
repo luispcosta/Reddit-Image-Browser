@@ -16,11 +16,13 @@ class Home extends Component {
       ],
       sortOptions: SORT_OPTIONS,
       redditName: DEFAULT_SUBREDDIT,
-      imagesType: null
+      imagesType: null,
+      sortType: null
     }
 
     this.updateImagesTypes = this.updateImagesTypes.bind(this)
     this.handleSubredditChange = this.handleSubredditChange.bind(this)
+    this.handleSortingChange = this.handleSortingChange.bind(this)
   }
 
   updateImagesTypes (newType) {
@@ -32,6 +34,12 @@ class Home extends Component {
   handleSubredditChange (subreddit) {
     this.setState({
       redditName: subreddit.replace('/r/', '')
+    })
+  }
+
+  handleSortingChange (newSortType) {
+    this.setState({
+      sortType: newSortType
     })
   }
 
@@ -48,9 +56,14 @@ class Home extends Component {
           updateImagesTypes={this.updateImagesTypes}
           handleSubredditChange={this.handleSubredditChange}
           sortOptions={this.state.sortOptions}
+          handleSortingChange={this.handleSortingChange}
         />
 
-        <GalleryComponent subreddit={this.state.redditName} imagesType={this.state.imagesType} />
+        <GalleryComponent
+          subreddit={this.state.redditName}
+          imagesType={this.state.imagesType}
+          sortType={this.state.sortType}
+        />
       </div>
     )
   }

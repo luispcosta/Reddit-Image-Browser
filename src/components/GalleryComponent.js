@@ -12,21 +12,21 @@ class GalleryComponent extends Component {
       loading: true
     }
 
-    this.fetchImagesOfType = this.fetchImagesOfType.bind(this)
+    this.fetchImagesFromNewProps = this.fetchImagesFromNewProps.bind(this)
   }
 
-  async fetchImagesOfType (subreddit, imagesType) {
+  async fetchImagesFromNewProps (subreddit, imagesType, sortType) {
     switch (imagesType) {
       case 'hot':
         return await fetchHotImages(subreddit)
       case 'new':
         return await fetchNewImages(subreddit)
       case 'controversial':
-        return await fetchControversialImages(subreddit)
+        return await fetchControversialImages(subreddit, sortType)
       case 'rising':
         return await fetchRisingImages(subreddit)
       case 'top':
-        return await fetchTopImages(subreddit)
+        return await fetchTopImages(subreddit, sortType)
       default:
         return []
     }
@@ -43,7 +43,11 @@ class GalleryComponent extends Component {
   async componentWillReceiveProps (newProps) {
     let images = []
     if (newProps.imagesType) {
-      images = await this.fetchImagesOfType(newProps.subreddit, newProps.imagesType)
+      images = await this.fetchImagesFromNewProps(
+        newProps.subreddit,
+        newProps.imagesType,
+        newProps.sortType
+      )
     } else {
       images = await fetchImages(newProps.subreddit)
     }
@@ -73,7 +77,9 @@ class GalleryComponent extends Component {
 }
 
 GalleryComponent.PropTypes = {
-  subreddit: React.PropTypes.string
+  subreddit: React.PropTypes.string,
+  imagesType: React.PropTypes.string,
+  sortType: React.PropTypes.string
 }
 
 export default GalleryComponent

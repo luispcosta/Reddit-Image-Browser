@@ -213,7 +213,8 @@ function _fetchImageData (promiseData) {
               const filteredResolutionUrl =
                 _findAcceptableImageResolutionUrl(img.resolutions)
               if (!_isNull(filteredResolutionUrl)) {
-                object.url = decodeURI(filteredResolutionUrl.url)
+                const cleanUrl = filteredResolutionUrl.url.replace(/&amp;/g, '&')
+                object.url = decodeURI(cleanUrl)
               }
             }
           })
