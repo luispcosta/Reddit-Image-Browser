@@ -8,10 +8,15 @@ class HeaderComponent extends Component {
     super(props)
 
     this.updateImagesTypes = this.updateImagesTypes.bind(this)
+    this.handleSubredditChange = this.handleSubredditChange.bind(this)
   }
 
   updateImagesTypes (newImagesType) {
     this.props.updateImagesTypes(newImagesType)
+  }
+
+  handleSubredditChange (newSubreddit) {
+    this.props.handleSubredditChange(newSubreddit)
   }
 
   render () {
@@ -33,7 +38,10 @@ class HeaderComponent extends Component {
           subreddit={this.props.redditName}
         />
 
-        <SideBarComponent subreddits={this.props.availableSubReddits}/>
+        <SideBarComponent
+          subreddits={this.props.availableSubReddits}
+          handleSubredditChange={this.handleSubredditChange}
+        />
       </header>
     )
   }
@@ -42,6 +50,7 @@ class HeaderComponent extends Component {
 HeaderComponent.propTypes = {
   redditName: React.PropTypes.string,
   updateImagesType: React.PropTypes.func,
+  handleSubredditChange: React.PropTypes.func,
   availableSubReddits: React.PropTypes.array
 }
 

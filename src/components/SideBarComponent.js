@@ -2,6 +2,16 @@ import React, { Component } from 'react'
 
 class SideBarComponent extends Component {
 
+  constructor (props) {
+    super(props)
+
+    this.changeSubreddit = this.changeSubreddit.bind(this)
+  }
+
+  changeSubreddit (e) {
+    this.props.handleSubredditChange(e.target.innerHTML)
+  }
+
   render () {
     const subredditsLinks = this.props.subreddits.map(sub => {
       return <li><span onClick={this.changeSubreddit}>{sub}</span></li>

@@ -19,11 +19,18 @@ class Home extends Component {
     }
 
     this.updateImagesTypes = this.updateImagesTypes.bind(this)
+    this.handleSubredditChange = this.handleSubredditChange.bind(this)
   }
 
   updateImagesTypes (newType) {
     this.setState({
       imagesType: newType.toLowerCase()
+    })
+  }
+
+  handleSubredditChange (subreddit) {
+    this.setState({
+      redditName: subreddit.replace('/r/', '')
     })
   }
 
@@ -38,6 +45,7 @@ class Home extends Component {
           availableSubReddits={this.state.availableSubReddits}
           redditName={this.state.redditName}
           updateImagesTypes={this.updateImagesTypes}
+          handleSubredditChange={this.handleSubredditChange}
         />
 
         <GalleryComponent subreddit={this.state.redditName} imagesType={this.state.imagesType} />
