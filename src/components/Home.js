@@ -3,7 +3,7 @@ import React, { Component } from 'react' // eslint-disable-line no-unused-vars
 import HeaderComponent from './HeaderComponent' // eslint-disable-line no-unused-vars
 import GalleryComponent from './GalleryComponent' // eslint-disable-line no-unused-vars
 
-import { DEFAULT_SUBREDDIT } from './../connectors/Api'
+import { SORT_OPTIONS, DEFAULT_SUBREDDIT } from './../connectors/Api'
 
 class Home extends Component {
 
@@ -14,6 +14,7 @@ class Home extends Component {
       availableSubReddits: [
         '/r/cute', '/r/photography', '/r/pics', '/r/earthporn'
       ],
+      sortOptions: SORT_OPTIONS,
       redditName: DEFAULT_SUBREDDIT,
       imagesType: null
     }
@@ -46,6 +47,7 @@ class Home extends Component {
           redditName={this.state.redditName}
           updateImagesTypes={this.updateImagesTypes}
           handleSubredditChange={this.handleSubredditChange}
+          sortOptions={this.state.sortOptions}
         />
 
         <GalleryComponent subreddit={this.state.redditName} imagesType={this.state.imagesType} />

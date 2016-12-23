@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import RedditPresenterComponent from './RedditPresenterComponent'
 import SideBarComponent from './SideBarComponent'
+import RedditImagesSortOptionsComponent from './RedditImagesSortOptionsComponent'
 
 class HeaderComponent extends Component {
 
@@ -9,9 +10,21 @@ class HeaderComponent extends Component {
 
     this.updateImagesTypes = this.updateImagesTypes.bind(this)
     this.handleSubredditChange = this.handleSubredditChange.bind(this)
+    this.renderImagesSorter = this.renderImagesSorter.bind(this)
+
+    this.state = {
+      shouldPresentSortOptions: false
+    }
+  }
+
+  shouldPresentSortOptionsFromNewType (newImagesType) {
+    return newImagesType === 'top' || newImagesType === 'controversial'
   }
 
   updateImagesTypes (newImagesType) {
+    this.setState({
+      shouldPresentSortOptions: this.shouldPresentSortOptionsFromNewType(newImagesType.toLowerCase())
+    })
     this.props.updateImagesTypes(newImagesType)
   }
 
@@ -19,19 +32,16 @@ class HeaderComponent extends Component {
     this.props.handleSubredditChange(newSubreddit)
   }
 
+  renderImagesSorter () {
+    if (this.state.shouldPresentSortOptions) {
+      return <RedditImagesSortOptionsComponent sortOptions={this.props.sortOptions}/>
+    }
+  }
+
   render () {
     return (
       <header className="flex flex--space-between flex--align-top">
-        <div id="reddit_sort_options">
-          <ul>
-            <li><a href="">All time</a></li>
-            <li><a href="">From the last year</a></li>
-            <li><a href="">From the last month</a></li>
-            <li><a href="">From the last week</a></li>
-            <li><a href="">From the last day</a></li>
-            <li><a href="">From the last hour</a></li>
-          </ul>
-        </div>
+        { this.renderImagesSorter() }
 
         <RedditPresenterComponent
           updateImagesTypes={this.updateImagesTypes}
@@ -51,7 +61,8 @@ HeaderComponent.propTypes = {
   redditName: React.PropTypes.string,
   updateImagesType: React.PropTypes.func,
   handleSubredditChange: React.PropTypes.func,
-  availableSubReddits: React.PropTypes.array
+  availableSubReddits: React.PropTypes.array,
+  sortOptions: React.PropTypes.array
 }
 
 export default HeaderComponent

@@ -6,13 +6,32 @@ import axios from 'axios'
  */
 export const DEFAULT_SUBREDDIT = 'earthporn'
 
-export const SORT_OPTIONS = {
-  all: 'all',
-  year: 'year',
-  month: 'month',
-  day: 'day',
-  hour: 'hour '
-}
+export const SORT_OPTIONS = [
+  {
+    label: 'All Time',
+    link: 'all'
+  },
+  {
+    label: 'Last year',
+    link: 'year'
+  },
+  {
+    label: 'Last month',
+    link: 'month'
+  },
+  {
+    label: 'Last week',
+    link: 'week'
+  },
+  {
+    label: 'Last day',
+    link: 'day'
+  },
+  {
+    label: 'Last hour',
+    link: 'hour'
+  }
+]
 
 /**
  * [fetchImages description]
