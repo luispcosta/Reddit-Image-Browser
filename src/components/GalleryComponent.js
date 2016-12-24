@@ -3,6 +3,7 @@ import fetchImages, { fetchHotImages, fetchNewImages, fetchRisingImages, fetchTo
 
 import ImageComponent from './ImageComponent' // eslint-disable-line no-unused-vars
 import LoadingComponent from './LoadingComponent'
+import NoImagesComponent from './NoImagesComponent'
 
 class GalleryComponent extends Component {
   constructor (props) {
@@ -10,7 +11,8 @@ class GalleryComponent extends Component {
 
     this.state = {
       images: [],
-      loading: true
+      loading: true,
+      subreddit: null
     }
 
     this.fetchImagesFromNewProps = this.fetchImagesFromNewProps.bind(this)
@@ -37,6 +39,7 @@ class GalleryComponent extends Component {
     const images = await fetchImages(this.props.subreddit)
     this.setState({
       images: images,
+      subreddit: this.props.subreddit,
       loading: false
     })
   }
@@ -57,6 +60,7 @@ class GalleryComponent extends Component {
     }
     this.setState({
       images: images,
+      subreddit: newProps.subreddit,
       loading: false
     })
   }
@@ -66,9 +70,16 @@ class GalleryComponent extends Component {
       return <LoadingComponent />
     }
 
-    const imagesToDisplay = this.state.images.map(img => {
-      return <ImageComponent key={img.id} data={img}/>
-    })
+    let imagesToDisplay = []
+    if (this.state.images &&
+      typeof this.state.images === 'object' &&
+      this.state.images.length > 0) {
+      imagesToDisplay = this.state.images.map(img => {
+        return <ImageComponent key={img.id} data={img}/>
+      })
+    } else {
+      imagesToDisplay = <NoImagesComponent forSubreddit={this.state.subreddit}/>
+    }
 
     return (
       <section id="section--gallery" className="flex flex--wrap">

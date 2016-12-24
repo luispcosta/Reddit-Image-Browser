@@ -10,12 +10,15 @@ class Home extends Component {
   constructor (props) {
     super(props)
 
+    const params = this.props.params
+
+    const subreddit = params.subreddit || DEFAULT_SUBREDDIT
     this.state = {
       availableSubReddits: [
         '/r/cute', '/r/photography', '/r/pics', '/r/earthporn'
       ],
       sortOptions: SORT_OPTIONS,
-      redditName: DEFAULT_SUBREDDIT,
+      redditName: subreddit,
       imagesType: null,
       sortType: null
     }
@@ -23,6 +26,15 @@ class Home extends Component {
     this.updateImagesTypes = this.updateImagesTypes.bind(this)
     this.handleSubredditChange = this.handleSubredditChange.bind(this)
     this.handleSortingChange = this.handleSortingChange.bind(this)
+  }
+
+  componentWillReceiveProps (newProps) {
+    const params = newProps.params
+
+    const subreddit = params.subreddit || DEFAULT_SUBREDDIT
+    this.setState({
+      redditName: subreddit
+    })
   }
 
   updateImagesTypes (newType) {
