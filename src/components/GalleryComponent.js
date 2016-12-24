@@ -2,6 +2,7 @@ import React, { Component } from 'react' // eslint-disable-line no-unused-vars
 import fetchImages, { fetchHotImages, fetchNewImages, fetchRisingImages, fetchTopImages, fetchControversialImages } from './../connectors/Api'
 
 import ImageComponent from './ImageComponent' // eslint-disable-line no-unused-vars
+import LoadingComponent from './LoadingComponent'
 
 class GalleryComponent extends Component {
   constructor (props) {
@@ -41,6 +42,9 @@ class GalleryComponent extends Component {
   }
 
   async componentWillReceiveProps (newProps) {
+    this.setState({
+      loading: true
+    })
     let images = []
     if (newProps.imagesType) {
       images = await this.fetchImagesFromNewProps(
@@ -52,16 +56,14 @@ class GalleryComponent extends Component {
       images = await fetchImages(newProps.subreddit)
     }
     this.setState({
-      images: images
+      images: images,
+      loading: false
     })
   }
 
   render () {
     if (this.state.loading) {
-      return (
-        // TODO: Create a loadiung component!
-        <h1>loading!</h1>
-      )
+      return <LoadingComponent />
     }
 
     const imagesToDisplay = this.state.images.map(img => {

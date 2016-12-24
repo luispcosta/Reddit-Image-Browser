@@ -14,7 +14,7 @@ class SideBarComponent extends Component {
 
   render () {
     const subredditsLinks = this.props.subreddits.map(sub => {
-      return <li><span onClick={this.changeSubreddit}>{sub}</span></li>
+      return <li key={sub}><span onClick={this.changeSubreddit}>{sub}</span></li>
     })
 
     return (
