@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack -d && webpack-dev-server --content-base src/ --inline --hot",
-    "deploy": "cp src/app.css dist/ && cp src/index.html dist/ && git subtree push --prefix dist origin gh-pages"
+    "deploy": "cp src/app.css dist/ && cp src/index.html dist/ && git add dist/ && git commit -m 'Deploy' && git subtree push --prefix dist origin gh-pages"
   },
   "author": "",
   "license": "ISC",
