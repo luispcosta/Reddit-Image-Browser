@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack -d && webpack-dev-server --content-base src/ --inline --hot",
-    "deploy": "git checkout gh-pages && git merge master && git push origin gh-pages"
+    "deploy": "cp src/app.css dist/ && cp src/index.html dist/"
   },
   "author": "",
   "license": "ISC",

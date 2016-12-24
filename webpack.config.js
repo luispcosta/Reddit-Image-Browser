@@ -5,9 +5,8 @@ module.exports = {
     'babel-polyfill', path.resolve(__dirname, 'src') + '/index.js'
   ],
   output: {
-    path: path.resolve(__dirname, 'dist') + '/app',
-    filename: 'app.js',
-    publicPath: '/app/'
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'app.js'
   },
   module: {
     loaders: [
