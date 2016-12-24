@@ -164,13 +164,13 @@ function _redditApiEndpointUrl (options = {}) {
   if (options.sort) {
     const sort = options.sort
     const order = options.order
-    url += `/${order}/.json?sort=${order}&t=${sort}&raw_json=1/`
+    url += `/${order}/.json?sort=${order}&t=${sort}&limit=100&raw_json=1/`
     return url
   } else if (options.order) {
-    url += `/${options.order}/.json?raw_json=1`
+    url += `/${options.order}/.json?raw_json=1&limit=100`
     return url
   } else {
-    url += '.json?raw_json=1'
+    url += '.json?raw_json=1&limit=100'
     return url
   }
 }
@@ -202,7 +202,8 @@ function _fetchImageData (promiseData) {
         id: id,
         author: author,
         score: score,
-        url: null
+        url: null,
+        fullScreenUrl: null
       }
 
       if (!_isNull(preview)) {
@@ -217,6 +218,13 @@ function _fetchImageData (promiseData) {
                 object.url = decodeURI(cleanUrl)
                 if (!_isNull(object.url)) {
                   // Ignore any submissions that has no preview available.
+
+                  // Use the selected url as full screen image by default
+                  let fullScreenUrl = object.url
+                  if (img.source) {
+                    fullScreenUrl = img.source.url
+                  }
+                  object.fullScreenUrl = fullScreenUrl
                   imageData.push(object)
                 }
               }

@@ -3,6 +3,34 @@
   width: 100%;
 }
 
+.flex-end {
+  justify-content: flex-end;
+}
+
+.fullScreen {
+  color: white;
+  font-size: 40px;
+  position: fixed;
+  top: 3%;
+  bottom: 3%;
+  left: 3%;
+  right: 3%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid white;
+  border-radius: 5px;
+  z-index: 11;
+}
+
+.fullScreen i {
+  padding: 15px 20px 0 0;
+}
+
+.fullScreen i:hover {
+  cursor: pointer;
+}
+
 .spinner {
   display: flex;
   align-items: center;
