@@ -197,7 +197,6 @@ function _fetchImageData (promiseData) {
     const childData = child.data
     if (!_isNull(childData)) {
       const { title, id, author, score, preview } = childData
-
       const object = {
         title: title,
         id: id,
@@ -205,6 +204,7 @@ function _fetchImageData (promiseData) {
         score: score,
         url: null
       }
+
       if (!_isNull(preview)) {
         const images = preview.images
         if (!_isNull(images)) {
@@ -215,12 +215,15 @@ function _fetchImageData (promiseData) {
               if (!_isNull(filteredResolutionUrl)) {
                 const cleanUrl = filteredResolutionUrl.url.replace(/&amp;/g, '&')
                 object.url = decodeURI(cleanUrl)
+                if (!_isNull(object.url)) {
+                  // Ignore any submissions that has no preview available.
+                  imageData.push(object)
+                }
               }
             }
           })
         }
       }
-      imageData.push(object)
     }
   })
 
