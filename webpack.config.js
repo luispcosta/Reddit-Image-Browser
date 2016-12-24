@@ -4,7 +4,6 @@ module.exports = {
   entry: [
     'babel-polyfill', path.resolve(__dirname, 'src') + '/index.js'
   ],
-
   output: {
     path: path.resolve(__dirname, 'dist') + '/app',
     filename: 'app.js',
