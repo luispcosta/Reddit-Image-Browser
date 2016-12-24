@@ -34,9 +34,11 @@ export const SORT_OPTIONS = [
 ]
 
 /**
- * [fetchImages description]
- * @param  {[type]}  [subreddit=DEFAULT_SUBREDDIT] [description]
- * @return {Promise}                               [description]
+ * Fetches the hot images from a subreddit.
+ *
+ * @param  {String}  [subreddit=DEFAULT_SUBREDDIT]
+ * The subreddit to fetch images from.
+ * @return {Promise}
  */
 async function fetchImages (subreddit = DEFAULT_SUBREDDIT) {
   try {
@@ -51,8 +53,9 @@ async function fetchImages (subreddit = DEFAULT_SUBREDDIT) {
 /**
  * Fetches new images from a subreddit
  *
- * @param  {[type]}  [subreddit=DEFAULT_SUBREDDIT] [description]
- * @return {Promise}                               [description]
+ * @param  {String}  [subreddit=DEFAULT_SUBREDDIT]
+ * The subreddit to fetch images from.
+ * @return {Promise}
  */
 export async function fetchNewImages (subreddit = DEFAULT_SUBREDDIT) {
   try {
@@ -67,8 +70,9 @@ export async function fetchNewImages (subreddit = DEFAULT_SUBREDDIT) {
 /**
  * Fetches the rising images from a subreddit
  *
- * @param  {[type]}  [subreddit=DEFAULT_SUBREDDIT] [description]
- * @return {Promise}                               [description]
+ * @param  {String}  [subreddit=DEFAULT_SUBREDDIT]
+ * The subreddit to fetch images from.
+ * @return {Promise}
  */
 export async function fetchRisingImages (subreddit = DEFAULT_SUBREDDIT) {
   try {
@@ -83,8 +87,9 @@ export async function fetchRisingImages (subreddit = DEFAULT_SUBREDDIT) {
 /**
  * Fetches the hot images from a subreddit
  *
- * @param  {[type]}  [subreddit=DEFAULT_SUBREDDIT] [description]
- * @return {Promise}                               [description]
+ * @param  {String}  [subreddit=DEFAULT_SUBREDDIT]
+ * The subreddit to fetch images from.
+ * @return {Promise}
  */
 export async function fetchHotImages (subreddit = DEFAULT_SUBREDDIT) {
   try {
@@ -99,17 +104,12 @@ export async function fetchHotImages (subreddit = DEFAULT_SUBREDDIT) {
 /**
  * Fetches the top images from a subreddit.
  *
- * @param  {[type]}  [subreddit=DEFAULT_SUBREDDIT] [description]
+ * @param  {String}  [subreddit=DEFAULT_SUBREDDIT]
+ * The subreddit to fetch images from.
  * @param  {String}  [sort=null]
- *         The sorting option.
- *         Sorting can be one of the following:
- *          - 'all' => Fetches the top images of all time from the provided
- *            subreddit
- *          - 'week' => Fetches the top images from the last week
- *          - 'day' => Fetches the top images from the last day
- *          - 'month' => Fetches the top images from the last month
- *          - 'year' => Fetches the top images from the last year
- * @return {Promise}                               [description]
+ *         The sorting option. See the object SORT_OPTIONS at the top
+ *         of this file for information
+ * @return {Promise}
  */
 export async function fetchTopImages (subreddit = DEFAULT_SUBREDDIT, sort = null) {
   try {
@@ -124,11 +124,12 @@ export async function fetchTopImages (subreddit = DEFAULT_SUBREDDIT, sort = null
 /**
  * Fetches the controversial images from the specified subreddit.
  *
- * @param  {[type]}  [subreddit=DEFAULT_SUBREDDIT] [description]
+ * @param  {String}  [subreddit=DEFAULT_SUBREDDIT]
+ * The subreddit to fetch images from.
  * @param  {String}  [sort=null]
- *         Check the docs of the method @fetchTopImages for more info about
- *         this argument.
- * @return {Promise}                               [description]
+ *         The sorting option. See the object SORT_OPTIONS at the top
+ *         of this file for information
+ * @return {Promise}
  */
 export async function fetchControversialImages (subreddit = DEFAULT_SUBREDDIT, sort = null) {
   try {
@@ -143,20 +144,24 @@ export async function fetchControversialImages (subreddit = DEFAULT_SUBREDDIT, s
 // PRIVATE METHODS
 
 /**
- * [_replaceName description]
- * @param  {[type]} name         [description]
- * @param  {Object} [options={}] [description]
- * @return {[type]}              [description]
+ * Creates the URL request, by replacing the subreddit name in the
+ * URL template.
+ *
+ * @param  {String} name The subreddit name
+ * @param  {Object} [options={}] A list of options. Check the docs for each
+ * fetch_* method for information.
+ * @return {String} A reddit API endpoint URL
  */
-function _replaceSubredditName (name, options = {}) {
-  return _redditApiEndpointUrl(options).replace('{NAME}', name)
+function _replaceSubredditName (subredditName, options = {}) {
+  return _redditApiEndpointUrl(options).replace('{NAME}', subredditName)
 }
 
 /**
  * Creates the reddit's API endpoints based on the options received.
  *
- * @param  {Object} [options={}] [description]
- * @return {[type]}              [description]
+ * @param  {Object} [options={}] Check the docs for each
+ * fetch_* method for information.
+ * @return {String} An endpoint URL.
  */
 function _redditApiEndpointUrl (options = {}) {
   let url = `https://www.reddit.com/r/{NAME}`
@@ -176,10 +181,10 @@ function _redditApiEndpointUrl (options = {}) {
 }
 
 /**
- * Returns an array of images URLs from a result of calling a promise
+ * Returns an array of images and the associated information.
  *
- * @param  {Promise} promiseData [description]
- * @return {[type]}             [description]
+ * @param  {Promise} promiseData Raw promise data fetched from axios.
+ * @return {Array}
  */
 function _fetchImageData (promiseData) {
   const data = promiseData.data.data
@@ -238,6 +243,12 @@ function _fetchImageData (promiseData) {
   return imageData
 }
 
+/**
+ * Checks if the object is null.
+ *
+ * @param  {Object}  object
+ * @return {Boolean}
+ */
 function _isNull (object) {
   return object === null || object === undefined
 }
@@ -258,7 +269,8 @@ function PromiseException (message) {
  *    height: number
  *  }
  *
- * @return {[type]}             [description]
+ * @return {Object} An object with the width and height appropriate for the app.
+ * Check the constants at the end of this file for more information.
  */
 function _findAcceptableImageResolutionUrl (resolutions) {
   return resolutions.find(res => {

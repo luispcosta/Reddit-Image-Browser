@@ -1,11 +1,11 @@
-import React, { Component } from 'react' // eslint-disable-line no-unused-vars
+import React from 'react'
 import fetchImages, { fetchHotImages, fetchNewImages, fetchRisingImages, fetchTopImages, fetchControversialImages } from './../connectors/Api'
 
 import ImageComponent from './ImageComponent' // eslint-disable-line no-unused-vars
 import LoadingComponent from './LoadingComponent'
 import NoImagesComponent from './NoImagesComponent'
 
-class GalleryComponent extends Component {
+class GalleryComponent extends React.Component {
   constructor (props) {
     super(props)
 

@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import RedditPresenterComponent from './RedditPresenterComponent'
 import SideBarComponent from './SideBarComponent'
 import RedditImagesSortOptionsComponent from './RedditImagesSortOptionsComponent'
 
-class HeaderComponent extends Component {
+class HeaderComponent extends React.Component {
 
   constructor (props) {
     super(props)

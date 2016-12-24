@@ -31,7 +31,8 @@ class RedditImagesSortOptionsComponent extends React.Component {
 }
 
 RedditImagesSortOptionsComponent.PropTypes = {
-  handleSubredditChange: React.PropTypes.func
+  handleSubredditChange: React.PropTypes.func,
+  sortOptions: React.PropTypes.array
 }
 
 export default RedditImagesSortOptionsComponent

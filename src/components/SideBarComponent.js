@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-class SideBarComponent extends Component {
+class SideBarComponent extends React.Component {
 
   constructor (props) {
     super(props)
@@ -30,7 +30,8 @@ class SideBarComponent extends Component {
 }
 
 SideBarComponent.propTypes = {
-  subreddits: React.PropTypes.array
+  subreddits: React.PropTypes.array,
+  handleSubredditChange: React.PropTypes.func
 }
 
 export default SideBarComponent

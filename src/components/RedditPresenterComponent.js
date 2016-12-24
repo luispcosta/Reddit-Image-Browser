@@ -1,6 +1,6 @@
-import React, { Component } from 'react' // eslint-disable-line no-unused-vars
+import React from 'react' // eslint-disable-line no-unused-vars
 
-class RedditPresenterComponent extends Component {
+class RedditPresenterComponent extends React.Component {
 
   constructor (props) {
     super(props)
@@ -33,7 +33,8 @@ class RedditPresenterComponent extends Component {
 }
 
 RedditPresenterComponent.propTypes = {
-  updateImagesTypes: React.PropTypes.func
+  updateImagesTypes: React.PropTypes.func,
+  subreddit: React.PropTypes.string
 }
 
 export default RedditPresenterComponent

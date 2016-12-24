@@ -1,11 +1,11 @@
-import React, { Component } from 'react' // eslint-disable-line no-unused-vars
+import React from 'react'
 
 import HeaderComponent from './HeaderComponent' // eslint-disable-line no-unused-vars
 import GalleryComponent from './GalleryComponent' // eslint-disable-line no-unused-vars
 
 import { SORT_OPTIONS, DEFAULT_SUBREDDIT } from './../connectors/Api'
 
-class Home extends Component {
+class Home extends React.Component {
 
   constructor (props) {
     super(props)

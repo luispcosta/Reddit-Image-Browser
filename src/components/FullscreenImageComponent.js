@@ -1,7 +1,6 @@
 import React from 'react'
 
 class FullscreenImageComponent extends React.Component {
-
   render () {
     const styles = {
       backgroundImage: `url("${this.props.url}")`
