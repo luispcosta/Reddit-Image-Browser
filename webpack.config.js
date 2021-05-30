@@ -1,24 +1,27 @@
-var path = require('path')
+const path = require('path');
 
 module.exports = {
-  entry: [
-    'babel-polyfill', path.resolve(__dirname, 'src') + '/index.js'
-  ],
+  mode: 'development',
+  entry: ['@babel/polyfill', `${path.resolve(__dirname, 'src')}/index.jsx`],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'app.js'
+    filename: 'app.js',
   },
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.js$/,
-        include: path.resolve(__dirname, 'src'),
-        loader: 'babel-loader',
-        query: {
-          presets: ['react', 'es2015', 'es2016'],
-          plugins: ['transform-async-to-generator']
-        }
-      }
-    ]
-  }
-}
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        resolve: {
+          extensions: [".js", ".jsx"],
+        },
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-react', '@babel/preset-env'],
+          },
+        },
+      },
+    ],
+  },
+};

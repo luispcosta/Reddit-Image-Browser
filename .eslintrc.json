@@ -1,0 +1,31 @@
+{
+	"parser": "@babel/eslint-parser",
+	"env": {
+		"browser": true,
+		"es2021": true,
+		"es6": true
+	},
+	"extends": [
+		"plugin:react/recommended",
+		"airbnb"
+	],
+	"parserOptions": {
+		"es6": true,
+    "sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"ecmaVersion": 12,
+		"babelOptions": {
+			"presets": ["@babel/preset-react"]
+		}
+	},
+	"plugins": [
+		"react"
+	],
+	"rules": {
+		"object-curly-spacing": ["error", "never"],
+		"import/prefer-default-export": 0,
+		"max-len": [2, {"code": 120, "tabWidth": 2, "ignoreUrls": true}]
+	}
+}
