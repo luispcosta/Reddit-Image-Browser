@@ -1,7 +1,4 @@
 import React from 'react';
-import {
-  fetchImages, fetchHotImages, fetchNewImages, fetchRisingImages, fetchTopImages, fetchControversialImages,
-} from '../connectors/Api';
 
 import {ImageComponent} from './ImageComponent';
 import {LoadingComponent} from './LoadingComponent';
@@ -18,7 +15,7 @@ export class GalleryComponent extends React.Component {
     };
   }
 
-  async componentWillMount() {
+  /*async componentWillMount() {
     const {subreddit} = this.props;
     const images = await fetchImages(subreddit);
 
@@ -27,9 +24,9 @@ export class GalleryComponent extends React.Component {
       subreddit,
       loading: false,
     });
-  }
+  }*/
 
-  async componentWillReceiveProps(newProps) {
+  /*async componentWillReceiveProps(newProps) {
     this.setState({
       loading: true,
     });
@@ -50,9 +47,9 @@ export class GalleryComponent extends React.Component {
       subreddit: newProps.subreddit,
       loading: false,
     });
-  }
+  }*/
 
-  async fetchImagesFromNewProps(subreddit, imagesType, sortType) {
+  /*async fetchImagesFromNewProps(subreddit, imagesType, sortType) {
     switch (imagesType) {
       case 'hot':
         return await fetchHotImages(subreddit)
@@ -67,7 +64,7 @@ export class GalleryComponent extends React.Component {
       default:
         return []
     }
-  }
+  }*/
 
   render() {
     const {loading, images, subreddit} = this.state;

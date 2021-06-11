@@ -1,10 +1,9 @@
 import React from 'react';
 import {HeaderComponent} from './HeaderComponent';
 import {GalleryComponent} from './GalleryComponent';
-import {SORT_OPTIONS, DEFAULT_SUBREDDIT} from '../connectors/Api';
 
 export class Home extends React.Component {
-  constructor(props) {
+ /* constructor(props) {
     super(props);
 
     let paramsGot = props.params || {};
@@ -19,18 +18,18 @@ export class Home extends React.Component {
       imagesType: null,
       sortType: null,
     };
-  }
+  }*/
 
-  componentWillReceiveProps(newProps) {
+  /*componentWillReceiveProps(newProps) {
     const {params} = newProps;
 
     const subreddit = params.subreddit || DEFAULT_SUBREDDIT;
     this.setState({
       redditName: subreddit,
     });
-  }
+  }*/
 
-  updateImagesTypes = (newType) => {
+ /* updateImagesTypes = (newType) => {
     this.setState({
       imagesType: newType.toLowerCase(),
     });
@@ -46,10 +45,10 @@ export class Home extends React.Component {
     this.setState({
       sortType: newSortType,
     });
-  }
+  }*/
 
   render() {
-    const styles = {
+    /*const styles = {
       height: '100%',
       width: '100%',
     };
@@ -59,7 +58,7 @@ export class Home extends React.Component {
       sortType,
       imagesType,
       sortOptions,
-    } = this.state;
+    } = this.state;*/
 
     return (
       <div style={styles}>
