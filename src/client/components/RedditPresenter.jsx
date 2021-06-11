@@ -1,6 +1,6 @@
 import React from 'react';
 
-export class RedditPresenterComponent extends React.Component {
+export class RedditPresenter extends React.Component {
   updateImagesTypes = (e) => {
     const {updateImagesTypes} = this.props;
 

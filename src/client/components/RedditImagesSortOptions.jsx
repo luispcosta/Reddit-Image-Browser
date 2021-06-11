@@ -1,6 +1,6 @@
 import React from 'react';
 
-export class RedditImagesSortOptionsComponent extends React.Component {
+export class RedditImagesSortOptions extends React.Component {
   handleSortingChange = (e) => {
     const {handleSortingChange} = this.props;
 

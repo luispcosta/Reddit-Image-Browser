@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const webpack = require('webpack');
 const config = require('../../webpack.config');
 
@@ -10,6 +11,9 @@ const HTML_FILE = path.join(__dirname, '../../public/index.html');
 const {redditApi, handleResponse} = require('./helpers/redditApi');
 
 app.use('/static', express.static(path.join(__dirname, '../..', 'public')));
+app.use(cors({
+  credentials: true,
+}));
 
 app.use(require('webpack-dev-middleware')(compiler, {
   publicPath: config.output.publicPath,

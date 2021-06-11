@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const ImageDescriptionComponent = ({imageAttrs}) => (
+export const ImageDescription = ({imageAttrs}) => (
   <div className="hover-state">
     <div id="image_description">
       <p>{imageAttrs.title}</p>

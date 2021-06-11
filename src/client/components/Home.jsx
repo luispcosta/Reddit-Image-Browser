@@ -1,24 +1,21 @@
 import React from 'react';
-import {HeaderComponent} from './HeaderComponent';
-import {GalleryComponent} from './GalleryComponent';
+import {Header} from './Header';
+import {Gallery} from './Gallery';
 
 export class Home extends React.Component {
- /* constructor(props) {
+  constructor(props) {
     super(props);
 
     let paramsGot = props.params || {};
 
-    const subreddit = paramsGot.subreddit || DEFAULT_SUBREDDIT;
+    const subreddit = paramsGot.subreddit || 'earthporn';
     this.state = {
       availableSubReddits: [
         '/r/cute', '/r/photography', '/r/pics', '/r/earthporn',
       ],
-      sortOptions: SORT_OPTIONS,
       redditName: subreddit,
-      imagesType: null,
-      sortType: null,
     };
-  }*/
+  }
 
   /*componentWillReceiveProps(newProps) {
     const {params} = newProps;
@@ -29,11 +26,11 @@ export class Home extends React.Component {
     });
   }*/
 
- /* updateImagesTypes = (newType) => {
+  /*updateImagesTypes = (newType) => {
     this.setState({
       imagesType: newType.toLowerCase(),
     });
-  }
+  }*/
 
   handleSubredditChange = (subreddit) => {
     this.setState({
@@ -41,40 +38,37 @@ export class Home extends React.Component {
     });
   }
 
-  handleSortingChange = (newSortType) => {
+  /*handleSortingChange = (newSortType) => {
     this.setState({
       sortType: newSortType,
     });
   }*/
 
   render() {
-    /*const styles = {
+    const styles = {
       height: '100%',
       width: '100%',
     };
     const {
       availableSubReddits,
       redditName,
-      sortType,
-      imagesType,
-      sortOptions,
-    } = this.state;*/
+    } = this.state;
 
     return (
       <div style={styles}>
-        <HeaderComponent
+        <Header
           availableSubReddits={availableSubReddits}
           redditName={redditName}
           updateImagesTypes={this.updateImagesTypes}
           handleSubredditChange={this.handleSubredditChange}
-          sortOptions={sortOptions}
+          //sortOptions={sortOptions}
           handleSortingChange={this.handleSortingChange}
         />
 
-        <GalleryComponent
+        <Gallery
           subreddit={redditName}
-          imagesType={imagesType}
-          sortType={sortType}
+          //imagesType={imagesType}
+          //sortType={sortType}
         />
       </div>
     );

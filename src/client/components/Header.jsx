@@ -1,9 +1,9 @@
 import React from 'react';
-import {RedditPresenterComponent} from './RedditPresenterComponent';
-import {RedditImagesSortOptionsComponent} from './RedditImagesSortOptionsComponent';
-import {SideBarComponent} from './SideBarComponent';
+import {RedditPresenter} from './RedditPresenter';
+import {RedditImagesSortOptions} from './RedditImagesSortOptions';
+import {SideBar} from './SideBar';
 
-export class HeaderComponent extends React.Component {
+export class Header extends React.Component {
   constructor(props) {
     super(props);
 
@@ -41,7 +41,7 @@ export class HeaderComponent extends React.Component {
 
     if (shouldPresentSortOptions) {
       return (
-        <RedditImagesSortOptionsComponent
+        <RedditImagesSortOptions
           sortOptions={sortOptions}
           handleSortingChange={this.handleSortingChange}
         />
@@ -58,12 +58,12 @@ export class HeaderComponent extends React.Component {
       <header className="flex flex--space-between flex--align-top">
         {this.renderImagesSorter()}
 
-        <RedditPresenterComponent
+        <RedditPresenter
           updateImagesTypes={this.updateImagesTypes}
           subreddit={redditName}
         />
 
-        <SideBarComponent
+        <SideBar
           subreddits={availableSubReddits}
           handleSubredditChange={this.handleSubredditChange}
         />

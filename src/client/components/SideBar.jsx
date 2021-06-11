@@ -1,6 +1,6 @@
 import React from 'react';
 
-export class SideBarComponent extends React.Component {
+export class SideBar extends React.Component {
   changeSubreddit = (e) => {
     const {handleSubredditChange} = this.props;
     handleSubredditChange(e.target.innerHTML);

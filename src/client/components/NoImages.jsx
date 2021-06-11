@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const NoImagesComponent = ({forSubreddit}) => (
+export const NoImages = ({forSubreddit}) => (
   <div className="flex centerdiv flex--align-center flex--center">
     <h1>
       There are no images for

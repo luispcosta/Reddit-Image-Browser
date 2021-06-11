@@ -1,8 +1,8 @@
 import React from 'react';
-import {ImageDescriptionComponent} from './ImageDescriptionComponent';
-import {FullscreenImageComponent} from './FullscreenImageComponent';
+import {ImageDescription} from './ImageDescription';
+import {FullscreenImage} from './FullscreenImage';
 
-export class ImageComponent extends React.Component {
+export class Image extends React.Component {
   constructor(props) {
     super(props);
 
@@ -52,7 +52,7 @@ export class ImageComponent extends React.Component {
 
     if (fullScreen) {
       return (
-        <FullscreenImageComponent
+        <FullscreenImage
           url={url}
           closeFullScreen={this.closeFullScreen}
         />
@@ -73,13 +73,18 @@ export class ImageComponent extends React.Component {
           onMouseEnter={this.onImageMouseEnter}
           style={styles}
         >
-          <ImageDescriptionComponent imageAttrs={data} />
+          <ImageDescription imageAttrs={data} />
         </button>
       );
     }
 
     return (
-      <div className="reddit_image" onMouseLeave={this.onImageMouseLeave} onMouseEnter={this.onImageMouseEnter} style={styles} />
+      <div
+        className="reddit_image"
+        onMouseLeave={this.onImageMouseLeave}
+        onMouseEnter={this.onImageMouseEnter}
+        style={styles}
+      />
     );
   }
 }
