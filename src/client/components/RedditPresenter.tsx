@@ -1,14 +1,19 @@
 import React from 'react';
 
-export class RedditPresenter extends React.Component {
-  updateImagesTypes = (e) => {
+interface RedditPresenterProps {
+  updateImagesTypes: Function,
+  subreddit: string,
+};
+
+export class RedditPresenter extends React.Component<RedditPresenterProps, {}> {
+  updateImagesTypes = (target: any) => {
     const {updateImagesTypes} = this.props;
 
     const links = document.querySelectorAll('.link_images_type');
     links.forEach((link) => link.classList.remove('active'));
-    e.target.classList.add('active');
+    target.target.classList.add('active');
 
-    updateImagesTypes(e.target.innerHTML);
+    updateImagesTypes(target.target.innerHTML);
   }
 
   render() {

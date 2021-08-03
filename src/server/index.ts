@@ -19,18 +19,18 @@ app.use(require('webpack-dev-middleware')(compiler, {
   publicPath: config.output.publicPath,
 }));
 
-app.get('/', (_req, res) => {
+app.get('/', (_req: any, res: any) => {
   res.sendFile(HTML_FILE);
 });
 
-app.get('/api/:subReddit/images', (req, res) => {
+app.get('/api/:subReddit/images', (req: any, res: any) => {
   const {subReddit} = req.params;
   const {order, sort} = req.query;
 
   redditApi.get(`/r/${subReddit}.json?sort=${sort}&order=${order}`)
-    .then((response) => handleResponse(response))
-    .then((data) => res.send(data))
-    .catch((err) => res.status(400).send(err));
+    .then((response: any) => handleResponse(response))
+    .then((data: Array<any>) => res.send(data))
+    .catch((err: Error) => res.status(400).send(err));
 });
 
 // eslint-disable-next-line no-console

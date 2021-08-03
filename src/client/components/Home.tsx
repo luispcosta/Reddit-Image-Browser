@@ -1,48 +1,62 @@
 import React from 'react';
 import {Header} from './Header';
 import {Gallery} from './Gallery';
+import {SORT_OPTIONS} from '../consts';
 
-export class Home extends React.Component {
-  constructor(props) {
+interface Params {
+  subreddit: string,
+};
+
+interface HomePropsType {
+  params: Params,
+};
+
+interface HomeStateTypes {
+  redditName: string,
+  imagesType: string,
+  sortType: string,
+};
+
+export class Home extends React.Component<HomePropsType, HomeStateTypes> {
+  constructor(props: HomePropsType) {
     super(props);
 
     let paramsGot = props.params || {};
 
     const subreddit = paramsGot.subreddit || 'earthporn';
     this.state = {
-      availableSubReddits: [
-        '/r/cute', '/r/photography', '/r/pics', '/r/earthporn',
-      ],
       redditName: subreddit,
+      imagesType: '',
+      sortType: '',
     };
   }
 
-  /*componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps: HomePropsType) {
     const {params} = newProps;
 
-    const subreddit = params.subreddit || DEFAULT_SUBREDDIT;
+    const subreddit = params.subreddit || 'earthporn';
     this.setState({
       redditName: subreddit,
     });
-  }*/
+  }
 
-  /*updateImagesTypes = (newType) => {
+  updateImagesType = (newType: string) => {
     this.setState({
       imagesType: newType.toLowerCase(),
     });
-  }*/
+  }
 
-  handleSubredditChange = (subreddit) => {
+  handleSubredditChange = (subreddit: string) => {
     this.setState({
       redditName: subreddit.replace('/r/', ''),
     });
   }
 
-  /*handleSortingChange = (newSortType) => {
+  handleSortingChange = (newSortType: string) => {
     this.setState({
       sortType: newSortType,
     });
-  }*/
+  }
 
   render() {
     const styles = {
@@ -50,25 +64,20 @@ export class Home extends React.Component {
       width: '100%',
     };
     const {
-      availableSubReddits,
       redditName,
     } = this.state;
 
     return (
       <div style={styles}>
         <Header
-          availableSubReddits={availableSubReddits}
           redditName={redditName}
-          updateImagesTypes={this.updateImagesTypes}
-          handleSubredditChange={this.handleSubredditChange}
-          //sortOptions={sortOptions}
+          sortOptions={SORT_OPTIONS}
+          updateImagesType={this.updateImagesType}
           handleSortingChange={this.handleSortingChange}
         />
 
         <Gallery
           subreddit={redditName}
-          //imagesType={imagesType}
-          //sortType={sortType}
         />
       </div>
     );

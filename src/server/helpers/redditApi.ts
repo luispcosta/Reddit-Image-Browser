@@ -2,6 +2,42 @@ const {default: axios} = require('axios');
 const {isMissing} = require('./tools');
 const {findAcceptableImageResolutionUrl} = require('./images');
 
+type Resolution = {
+  width: number,
+  height: number,
+};
+
+type InnerData = {
+  children: Array<any>,
+};
+
+type RedditApiData = {
+  data: InnerData,
+};
+
+type RedditApiPromiseData = {
+  data: RedditApiData,
+};
+
+type RedditImage = {
+  title: string,
+  id: string,
+  author: string,
+  score: number,
+  url: string,
+  fullScreenUrl: string,
+};
+
+interface RedditApiImageSource {
+  url: string,
+};
+
+type RedditApiImage = {
+  resolutions: Array<Resolution>,
+  source: RedditApiImageSource,
+};
+
+
 /**
  * Returns an array of images and the associated information.
  *
@@ -14,7 +50,7 @@ module.exports = {
     responseType: 'json',
     timeout: 3000,
   }),
-  handleResponse: (promiseData) => {
+  handleResponse: (promiseData: RedditApiPromiseData): Array<RedditImage> => {
     const {data} = promiseData;
     const innerData = data.data;
 
@@ -27,7 +63,7 @@ module.exports = {
       throw new Error('Could not fetch data from Reddit API. Please try again later');
     }
 
-    const imageData = [];
+    const result : Array<RedditImage> = [];
     dataChildren.forEach((child) => {
       const childData = child.data;
 
@@ -41,15 +77,15 @@ module.exports = {
           id,
           author,
           score,
-          url: null,
-          fullScreenUrl: null,
+          fullScreenUrl: "",
+          url: "",
         };
 
         if (!isMissing(preview)) {
           const {images} = preview;
 
           if (!isMissing(images)) {
-            images.forEach((img) => {
+            images.forEach((img: RedditApiImage) => {
               if (!isMissing(img.resolutions)) {
                 const filteredResolutionUrl = findAcceptableImageResolutionUrl(img.resolutions);
                 if (!isMissing(filteredResolutionUrl)) {
@@ -64,7 +100,7 @@ module.exports = {
                       fullScreenUrl = img.source.url;
                     }
                     object.fullScreenUrl = fullScreenUrl;
-                    imageData.push(object);
+                    result.push(object);
                   }
                 }
               }
@@ -74,6 +110,6 @@ module.exports = {
       }
     });
 
-    return imageData;
+    return result;
   },
 };

@@ -5,5 +5,5 @@
  * @return {Boolean}
  */
 module.exports = {
-  isMissing: (object) => object === null || object === undefined,
+  isMissing: (object: any) => object === null || object === undefined,
 };

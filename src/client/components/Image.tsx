@@ -1,28 +1,35 @@
 import React from 'react';
 import {ImageDescription} from './ImageDescription';
 import {FullscreenImage} from './FullscreenImage';
+import {GalleryImage} from '../types/GalleryImage';
 
-export class Image extends React.Component {
-  constructor(props) {
-    super(props);
+interface ImageProps {
+  data: GalleryImage,
+};
 
-    this.state = {
-      onImageHover: false,
-      fullScreen: false,
-      url: null,
-    };
+interface ImageState {
+  onImageHover: boolean,
+  fullScreen: boolean,
+  url: string,
+};
+
+export class Image extends React.Component<ImageProps, ImageState> {
+  state = {
+    onImageHover: false,
+    fullScreen: false,
+    url: "",
   }
 
-  onImageMouseLeave = (e) => {
-    e.preventDefault();
+  onImageMouseLeave = (event: Event) => {
+    event.preventDefault();
 
     this.setState({
       onImageHover: false,
     });
   }
 
-  onImageMouseEnter = (e) => {
-    e.preventDefault();
+  onImageMouseEnter = (event: Event) => {
+    event.preventDefault();
 
     this.setState({
       onImageHover: true,
@@ -41,7 +48,7 @@ export class Image extends React.Component {
   closeFullScreen = () => {
     this.setState({
       fullScreen: false,
-      url: null,
+      url: "",
       onImageHover: false,
     });
   }
