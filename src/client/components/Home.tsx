@@ -39,6 +39,7 @@ class HomeComponent extends React.Component<HomePropsType, HomeStateTypes> {
     const {getImages} = this.props;
     const {redditName, imagesType} = this.state;
 
+    console.log("getting 0");
     getImages(redditName, {imagesType});
   }
 
@@ -46,6 +47,9 @@ class HomeComponent extends React.Component<HomePropsType, HomeStateTypes> {
     const {getImages} = this.props;
     const {imagesType} = this.state;
 
+    this.props.history.push(`/${subreddit}`);
+
+    console.log("getting 1");
     getImages(subreddit, {imagesType});
     this.setState({
       redditName: subreddit,
@@ -55,6 +59,7 @@ class HomeComponent extends React.Component<HomePropsType, HomeStateTypes> {
   onChangeImagesType = (imagesType: string) => {
     const {getImages} = this.props;
     const {redditName} = this.state;
+    console.log("getting 2");
     getImages(redditName, {imagesType});
     this.setState({
       imagesType,
@@ -64,12 +69,14 @@ class HomeComponent extends React.Component<HomePropsType, HomeStateTypes> {
   onPrevClick = () => {
     const {getImages, prevImage} = this.props;
     const {redditName, imagesType} = this.state;
+    console.log("getting 3");
     getImages(redditName, {imagesType, before: prevImage});
   }
 
   onNextClick = () => {
     const {getImages, nextImage} = this.props;
     const {redditName, imagesType} = this.state;
+    console.log("getting 4");
     getImages(redditName, {imagesType, after: nextImage});
   }
 

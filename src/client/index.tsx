@@ -13,10 +13,7 @@ import {Home} from './components/Home';
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Route>
-        <Route exact path="/" component={Home} />
-        <Route path="/:subreddit" component={Home} />
-      </Route>
+      <Route path="/:subreddit?" component={Home} />
     </Router>
   </Provider>,
   document.getElementById('root'),
