@@ -19,15 +19,59 @@ app.use(require('webpack-dev-middleware')(compiler, {
   publicPath: config.output.publicPath,
 }));
 
-app.get('/', (_req: any, res: any) => {
+app.get('/:subreddit?', (_req: any, res: any) => {
   res.sendFile(HTML_FILE);
 });
 
 app.get('/api/:subReddit/images', (req: any, res: any) => {
   const {subReddit} = req.params;
-  const {order, sort} = req.query;
+  const {type} = req.query;
 
-  redditApi.get(`/r/${subReddit}.json?sort=${sort}&order=${order}`)
+  let apiEndpoint = `/r/${subReddit}`;
+
+  if (type !== undefined && type !== null && type !== '') {
+    apiEndpoint = `${apiEndpoint}/${type}`;
+  }
+
+  apiEndpoint = `${apiEndpoint}.json`;
+
+  redditApi.get(apiEndpoint)
+    .then((response: any) => handleResponse(response))
+    .then((data: Array<any>) => res.send(data))
+    .catch((err: Error) => res.status(400).send(err));
+});
+
+app.get('/api/:subReddit/prev_images/:id', (req: any, res: any) => {
+  const {subReddit, id} = req.params;
+  const {type} = req.query;
+
+  let apiEndpoint = `/r/${subReddit}`;
+
+  if (type !== undefined && type !== null && type !== '') {
+    apiEndpoint = `${apiEndpoint}/${type}`;
+  }
+
+  apiEndpoint = `${apiEndpoint}.json?before=${id}&count=25`;
+
+  redditApi.get(apiEndpoint)
+    .then((response: any) => handleResponse(response))
+    .then((data: Array<any>) => res.send(data))
+    .catch((err: Error) => res.status(400).send(err));
+});
+
+app.get('/api/:subReddit/next_images/:id', (req: any, res: any) => {
+  const {subReddit, id} = req.params;
+  const {type} = req.query;
+
+  let apiEndpoint = `/r/${subReddit}`;
+
+  if (type !== undefined && type !== null && type !== '') {
+    apiEndpoint = `${apiEndpoint}/${type}`;
+  }
+
+  apiEndpoint = `${apiEndpoint}.json?after=${id}&count=25`;
+
+  redditApi.get(apiEndpoint)
     .then((response: any) => handleResponse(response))
     .then((data: Array<any>) => res.send(data))
     .catch((err: Error) => res.status(400).send(err));

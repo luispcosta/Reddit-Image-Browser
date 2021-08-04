@@ -1,61 +1,76 @@
 import React from 'react';
 import {Header} from './Header';
 import {Gallery} from './Gallery';
-import {SORT_OPTIONS} from '../consts';
+import {connect} from 'react-redux';
+import {getImages} from '../store/actions';
+import {imagesSelector} from '../store/selectors/images';
+import {Loading} from './Loading';
+import {RouteComponentProps} from 'react-router';
+import {GalleryPagination} from './GalleryPagination';
 
-interface Params {
-  subreddit: string,
-};
+interface MatchParams {
+  subreddit?: string
+}
 
-interface HomePropsType {
-  params: Params,
+interface HomePropsType extends RouteComponentProps<MatchParams> {
+  getImages: Function,
+  images: Array<any>,
+  imagesIsLoading: boolean,
+  prevImage?: string,
+  nextImage?: string,
 };
 
 interface HomeStateTypes {
   redditName: string,
   imagesType: string,
-  sortType: string,
 };
 
-export class Home extends React.Component<HomePropsType, HomeStateTypes> {
+class HomeComponent extends React.Component<HomePropsType, HomeStateTypes> {
   constructor(props: HomePropsType) {
     super(props);
-
-    let paramsGot = props.params || {};
-
-    const subreddit = paramsGot.subreddit || 'earthporn';
+    const subreddit = props.match.params.subreddit || 'earthporn';
     this.state = {
       redditName: subreddit,
-      imagesType: '',
-      sortType: '',
+      imagesType: 'new',
     };
   }
 
-  componentWillReceiveProps(newProps: HomePropsType) {
-    const {params} = newProps;
+  componentDidMount() {
+    const {getImages} = this.props;
+    const {redditName, imagesType} = this.state;
 
-    const subreddit = params.subreddit || 'earthporn';
+    getImages(redditName, {imagesType});
+  }
+
+  onRedditChange = (subreddit: string) => {
+    const {getImages} = this.props;
+    const {imagesType} = this.state;
+
+    getImages(subreddit, {imagesType});
     this.setState({
       redditName: subreddit,
     });
   }
 
-  updateImagesType = (newType: string) => {
+  onChangeImagesType = (imagesType: string) => {
+    const {getImages} = this.props;
+    const {redditName} = this.state;
+    getImages(redditName, {imagesType});
     this.setState({
-      imagesType: newType.toLowerCase(),
-    });
+      imagesType,
+    })
   }
 
-  handleSubredditChange = (subreddit: string) => {
-    this.setState({
-      redditName: subreddit.replace('/r/', ''),
-    });
+  onPrevClick = () => {
+    const {getImages, prevImage} = this.props;
+    const {redditName, imagesType} = this.state;
+    getImages(redditName, {imagesType, before: prevImage});
   }
 
-  handleSortingChange = (newSortType: string) => {
-    this.setState({
-      sortType: newSortType,
-    });
+  onNextClick = () => {
+    const {getImages, nextImage} = this.props;
+    const {redditName, imagesType} = this.state;
+    getImages(redditName, {imagesType, after: nextImage});
   }
 
   render() {
@@ -63,23 +78,42 @@ export class Home extends React.Component<HomePropsType, HomeStateTypes> {
       height: '100%',
       width: '100%',
     };
+    const {images, imagesIsLoading, nextImage, prevImage} = this.props;
+
     const {
       redditName,
+      imagesType,
     } = this.state;
 
     return (
       <div style={styles}>
         <Header
           redditName={redditName}
-          sortOptions={SORT_OPTIONS}
-          updateImagesType={this.updateImagesType}
-          handleSortingChange={this.handleSortingChange}
+          onRedditChange={this.onRedditChange}
+          onChangeImagesType={this.onChangeImagesType}
+          currentImagesType={imagesType}
+          canChangeImagesType={images.length > 0}
         />
-
-        <Gallery
-          subreddit={redditName}
-        />
+        {imagesIsLoading && <Loading />}
+        {(!imagesIsLoading && images.length > 0) && (
+          <GalleryPagination
+            isPrevDisabled={prevImage === null}
+            isNextDisabled={nextImage === null}
+            onPrevClick={this.onPrevClick}
+            onNextClick={this.onNextClick}
+          />
+        )}
+        {!imagesIsLoading && (
+          <Gallery
+            images={images}
+            subreddit={redditName}
+          />
+        )}
       </div>
     );
   }
 }
+
+export const Home = connect(imagesSelector, {
+  getImages,
+})(HomeComponent);

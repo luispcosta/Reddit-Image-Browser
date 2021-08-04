@@ -80,7 +80,7 @@ export class Image extends React.Component<ImageProps, ImageState> {
           onMouseEnter={this.onImageMouseEnter}
           style={styles}
         >
-          <ImageDescription imageAttrs={data} />
+          <ImageDescription image={data} />
         </button>
       );
     }

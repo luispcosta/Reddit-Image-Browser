@@ -1,34 +1,45 @@
 import React from 'react';
 
 interface RedditPresenterProps {
-  updateImagesTypes: Function,
   subreddit: string,
+  onChangeImagesType: Function,
+  currentImagesType: string,
+  canChangeImagesType: boolean,
 };
 
 export class RedditPresenter extends React.Component<RedditPresenterProps, {}> {
-  updateImagesTypes = (target: any) => {
-    const {updateImagesTypes} = this.props;
-
-    const links = document.querySelectorAll('.link_images_type');
-    links.forEach((link) => link.classList.remove('active'));
-    target.target.classList.add('active');
-
-    updateImagesTypes(target.target.innerHTML);
-  }
-
   render() {
-    const {subreddit} = this.props;
+    const {
+      subreddit,
+      onChangeImagesType,
+      currentImagesType,
+      canChangeImagesType,
+    } = this.props;
+
+    const isActive = (type: string) => type === currentImagesType;
 
     return (
       <div id="reddit_options">
         <h1>{subreddit}</h1>
-        <ul>
-          <li><button type="button" className="link_images_type" onClick={this.updateImagesTypes}>Rising</button></li>
-          <li><button type="button" className="link_images_type" onClick={this.updateImagesTypes}>Top</button></li>
-          <li><button type="button" className="link_images_type" onClick={this.updateImagesTypes}>Controversial</button></li>
-          <li><button type="button" className="link_images_type" onClick={this.updateImagesTypes}>New</button></li>
-          <li><button type="button" className="link_images_type" onClick={this.updateImagesTypes}>Hot</button></li>
-        </ul>
+        {canChangeImagesType && (
+          <ul>
+            <li className={isActive('rising') ? 'link_images_type_active' : ''}>
+              <span className="link_images_type" onClick={() => onChangeImagesType('rising')}>Rising</span>
+            </li>
+            <li className={isActive('top') ? 'link_images_type_active' : ''}>
+              <span className="link_images_type" onClick={() => onChangeImagesType('top')}>Top</span>
+            </li>
+            <li className={isActive('controversial') ? 'link_images_type_active' : ''}>
+              <span className="link_images_type" onClick={() => onChangeImagesType('controversial')}>Controversial</span>
+            </li>
+            <li className={isActive('new') ? 'link_images_type_active' : ''}>
+              <span className="link_images_type" onClick={() => onChangeImagesType('new')}>New</span>
+            </li>
+            <li className={isActive('hot') ? 'link_images_type_active' : ''}>
+              <span className="link_images_type" onClick={() => onChangeImagesType('hot')}>Hot</span>
+            </li>
+          </ul>
+        )}
       </div>
     )
   }

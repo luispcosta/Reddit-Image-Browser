@@ -26,3 +26,10 @@ export const SORT_OPTIONS: Array<SortOption> = [
     link: 'hour'
   }
 ]
+
+export const SUB_REDDITS: Array<string> = [
+  'cute',
+  'photography',
+  'pics',
+  'earthporn'
+];

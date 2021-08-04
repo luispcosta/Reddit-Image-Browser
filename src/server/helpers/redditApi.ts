@@ -9,6 +9,8 @@ type Resolution = {
 
 type InnerData = {
   children: Array<any>,
+  after: string,
+  before: string,
 };
 
 type RedditApiData = {
@@ -37,6 +39,12 @@ type RedditApiImage = {
   source: RedditApiImageSource,
 };
 
+interface RedditApiResponse {
+  images: Array<RedditImage>
+  before?: string
+  after?: string
+};
+
 
 /**
  * Returns an array of images and the associated information.
@@ -50,13 +58,15 @@ module.exports = {
     responseType: 'json',
     timeout: 3000,
   }),
-  handleResponse: (promiseData: RedditApiPromiseData): Array<RedditImage> => {
+  handleResponse: (promiseData: RedditApiPromiseData): RedditApiResponse => {
     const {data} = promiseData;
     const innerData = data.data;
 
     if (isMissing(innerData)) {
       throw new Error('Could not fetch data from Reddit API. Please try agian later');
     }
+
+    const {before, after} = innerData;
 
     const dataChildren = innerData.children;
     if (isMissing(dataChildren)) {
@@ -66,10 +76,9 @@ module.exports = {
     const result : Array<RedditImage> = [];
     dataChildren.forEach((child) => {
       const childData = child.data;
-
       if (!isMissing(childData)) {
         const {
-          title, id, author, score, preview,
+          title, id, author, score, thumbnail, preview,
         } = childData;
 
         const object = {
@@ -78,7 +87,7 @@ module.exports = {
           author,
           score,
           fullScreenUrl: "",
-          url: "",
+          url: thumbnail.replace(/&amp;/g, '&'),
         };
 
         if (!isMissing(preview)) {
@@ -89,27 +98,26 @@ module.exports = {
               if (!isMissing(img.resolutions)) {
                 const filteredResolutionUrl = findAcceptableImageResolutionUrl(img.resolutions);
                 if (!isMissing(filteredResolutionUrl)) {
-                  const cleanUrl = filteredResolutionUrl.url.replace(/&amp;/g, '&');
-                  object.url = decodeURI(cleanUrl);
-                  if (!isMissing(object.url)) {
-                    // Ignore any submissions that has no preview available.
-
-                    // Use the selected url as full screen image by default
-                    let fullScreenUrl = object.url;
-                    if (img.source) {
-                      fullScreenUrl = img.source.url;
-                    }
-                    object.fullScreenUrl = fullScreenUrl;
-                    result.push(object);
+                  // Use the selected url as full screen image by default
+                  let fullScreenUrl = object.url;
+                  if (img.source) {
+                    fullScreenUrl = img.source.url.replace(/&amp;/g, '&');
                   }
+                  object.fullScreenUrl = fullScreenUrl;
                 }
               }
             });
           }
         }
+
+        result.push(object);
       }
     });
 
-    return result;
+    return {
+      images: result,
+      before,
+      after,
+    };
   },
 };
