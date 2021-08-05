@@ -6,7 +6,12 @@ A small website to browse images posted on any subreddit.
 
 + Clone this repository: `git clone ..`
 + `cd` into the cloned folder and run `npm install`.
-+ Finally, run `npm run start` and access `localhost:3000` in your favorite browser
++ Finally, run `npm run local` and access `localhost:3000` in your favorite browser
+
+# Deploying to heroku
+
+* Run `npm run deploy`
+* You may need to change
 
 # Usage
 

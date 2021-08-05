@@ -1,6 +1,20 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const resolveApiUrl = () => {
+  const port = process.env.PORT || 3000;
+
+  if (process.env.NODE_ENV === 'debug') {
+    return `http://localhost:${port}/api`;
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://floating-cliffs-54566.herokuapp.com/api';
+  }
+
+  throw new Error(`Cant resolve env ${process.env.NODE_ENV}`);
+};
+
 module.exports = {
   mode: 'development',
   entry: ['@babel/polyfill', `${path.resolve(__dirname, 'src/client')}/index.tsx`],
@@ -27,8 +41,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      ENV: JSON.stringify(process.env.NODE_ENV),
-      API_PORT: JSON.stringify(process.env.PORT || 3000),
+      API_URL: JSON.stringify(resolveApiUrl()),
     }),
   ],
 };
