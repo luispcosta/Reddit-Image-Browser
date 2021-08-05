@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "A small UI client to browse images posted on any subreddit",
   "scripts": {
-    "start": "nodemon src/server/index.ts"
+    "start": "nodemon src/server/index.ts",
+    "deploy": "git push heroku master"
+  },
+  "engines": {
+    "node": "16.1.0"
   },
   "author": "luispcosta",
   "license": "MIT",
