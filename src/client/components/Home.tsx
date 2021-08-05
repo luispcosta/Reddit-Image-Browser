@@ -7,6 +7,7 @@ import {imagesSelector} from '../store/selectors/images';
 import {Loading} from './Loading';
 import {RouteComponentProps} from 'react-router';
 import {GalleryPagination} from './GalleryPagination';
+import { DEFAULT_SUBREDDIT } from '../consts';
 
 interface MatchParams {
   subreddit?: string
@@ -28,7 +29,7 @@ interface HomeStateTypes {
 class HomeComponent extends React.Component<HomePropsType, HomeStateTypes> {
   constructor(props: HomePropsType) {
     super(props);
-    const subreddit = props.match.params.subreddit || 'earthporn';
+    const subreddit = props.match.params.subreddit || DEFAULT_SUBREDDIT;
     this.state = {
       redditName: subreddit,
       imagesType: 'new',

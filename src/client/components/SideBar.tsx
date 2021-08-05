@@ -9,7 +9,7 @@ export class SideBar extends React.Component<SideBarProps, {}> {
   handleOnEnterCustomSubreddit = (event: any) => {
     const {onRedditChange} = this.props;
 
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && event.target.value !== '') {
       onRedditChange(event.target.value);
     }
   }
