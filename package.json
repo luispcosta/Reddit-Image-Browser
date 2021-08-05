@@ -1,13 +1,12 @@
 {
-  "name": "test",
+  "name": "reddit_image_browser",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A small UI client to browse images posted on any subreddit",
   "scripts": {
     "start": "nodemon src/server/index.ts"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "luispcosta",
+  "license": "MIT",
   "dependencies": {
     "@babel/preset-env": "^7.14.4",
     "@reduxjs/toolkit": "^1.6.1",

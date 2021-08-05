@@ -26,7 +26,6 @@ type RedditImage = {
   id: string,
   author: string,
   score: number,
-  url: string,
   fullScreenUrl: string,
 };
 
@@ -78,41 +77,28 @@ module.exports = {
       const childData = child.data;
       if (!isMissing(childData)) {
         const {
-          title, id, author, score, thumbnail, preview,
+          title, id, author, score, preview,
         } = childData;
 
-        const object = {
-          title,
-          id,
-          author,
-          score,
-          fullScreenUrl: "",
-          url: thumbnail.replace(/&amp;/g, '&'),
-        };
+        let fullScreenUrl = '';
 
-        if (!isMissing(preview)) {
-          const {images} = preview;
+        if (preview) {
+          const previewImage = preview.images[0];
+          if (previewImage) {
+            fullScreenUrl = previewImage.source.url.replace(/&amp;/g, '&');
 
-          if (!isMissing(images)) {
-            images.forEach((img: RedditApiImage) => {
-              if (!isMissing(img.resolutions)) {
-                const filteredResolutionUrl = findAcceptableImageResolutionUrl(img.resolutions);
-                if (!isMissing(filteredResolutionUrl)) {
-                  // Use the selected url as full screen image by default
-                  let fullScreenUrl = object.url;
-                  if (img.source) {
-                    fullScreenUrl = img.source.url.replace(/&amp;/g, '&');
-                  }
-                  object.fullScreenUrl = fullScreenUrl;
-                }
-              }
+            result.push({
+              title,
+              id,
+              author,
+              score,
+              fullScreenUrl,
             });
           }
         }
-
-        result.push(object);
       }
     });
+
 
     return {
       images: result,
