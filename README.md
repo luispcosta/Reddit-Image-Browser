@@ -11,7 +11,7 @@ A small website to browse images posted on any subreddit.
 # Deploying to heroku
 
 * Run `npm run deploy`
-* You may need to change
+* You may need to change the production URL in `resolveApiUrl` in `webpack.config.js` to reflect your heroku app's name.
 
 # Usage
 
