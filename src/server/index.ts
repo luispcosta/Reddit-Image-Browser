@@ -78,4 +78,4 @@ app.get('/api/:subReddit/next_images/:id', (req: any, res: any) => {
 });
 
 // eslint-disable-next-line no-console
-app.listen(3000, () => console.log('Server running on port 3000, waiting requests...'));
+app.listen(process.env.PORT || 3000, () => console.log('Server running on port 3000, waiting requests...'));
