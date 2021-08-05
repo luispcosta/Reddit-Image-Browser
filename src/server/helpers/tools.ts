@@ -1,7 +1,7 @@
 /**
  * Checks if the object is null or undefined.
  *
- * @param  {Object}  object
+ * @param  {Object} any object
  * @return {Boolean}
  */
 module.exports = {

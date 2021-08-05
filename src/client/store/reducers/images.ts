@@ -1,7 +1,7 @@
 import { ImagesActionsTypes } from '../action-types/images';
 import {Action} from '../actions/index';
 
-type ImagesState = {
+export type ImagesState = {
   data: Array<string>,
   isLoading: boolean,
   prevImage?: string,

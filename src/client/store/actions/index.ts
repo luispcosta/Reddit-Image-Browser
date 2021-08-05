@@ -24,6 +24,10 @@ interface GetImagesOptsType {
   before?: string,
 };
 
+interface ApiResponse {
+  data: object,
+}
+
 export const getImages = (subReddit: string, opts: GetImagesOptsType = {imagesType: 'new', after: undefined, before: undefined}) => {
   return (dispatch: Dispatch) => {
     dispatch({
@@ -51,7 +55,7 @@ export const getImages = (subReddit: string, opts: GetImagesOptsType = {imagesTy
     }
 
     promise
-      .then((response: any) => {
+      .then((response: ApiResponse) => {
         dispatch({
           type: ImagesActionsTypes.FETCH_IMAGES_SUCCESS,
           payload: response.data,
