@@ -10,9 +10,27 @@ const HTML_FILE = path.join(__dirname, '../../public/index.html');
 
 const {redditApi, handleResponse} = require('./helpers/redditApi');
 
+const port = process.env.PORT || 3000;
+
+const allowedOrigins = [`localhost:${port}`, 'https://floating-cliffs-54566.herokuapp.com'];
+
 app.use('/static', express.static(path.join(__dirname, '../..', 'public')));
 app.use(cors({
   credentials: true,
+  origin: (origin: string, callback: Function) => {
+    // allow requests with no origin
+    // (like mobile apps or curl requests)
+    if(!origin)
+      return callback(null, true);
+
+    if(allowedOrigins.indexOf(origin) === -1){
+      var msg = 'The CORS policy for this site does not ' +
+                'allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+
+    return callback(null, true);
+  },
 }));
 
 app.use(require('webpack-dev-middleware')(compiler, {
@@ -78,4 +96,4 @@ app.get('/api/:subReddit/next_images/:id', (req: any, res: any) => {
 });
 
 // eslint-disable-next-line no-console
-app.listen(process.env.PORT || 3000, () => console.log('Server running on port 3000, waiting requests...'));
+app.listen(port, () => console.log(`Server running on port ${port}, waiting requests...`));
