@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "A small UI client to browse images posted on any subreddit",
   "scripts": {
-    "start": "ts-node src/server/index.ts",
+    "start": "NODE_ENV=production ts-node src/server/index.ts",
+    "local": "NODE_ENV=debug ts-node src/server/index.ts",
     "deploy": "git push heroku master"
   },
   "engines": {

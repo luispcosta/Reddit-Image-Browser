@@ -7,10 +7,8 @@ const config = require('../../webpack.config');
 const app = express();
 const compiler = webpack(config);
 const HTML_FILE = path.join(__dirname, '../../public/index.html');
-
-const {redditApi, handleResponse} = require('./helpers/redditApi');
-
 const port = process.env.PORT || 3000;
+const {redditApi, handleResponse} = require('./helpers/redditApi');
 
 const allowedOrigins = [`localhost:${port}`, 'https://floating-cliffs-54566.herokuapp.com'];
 
