@@ -5,12 +5,9 @@ interface NoImageProps {
 };
 
 export const NoImages = ({forSubreddit}: NoImageProps) => (
-  <div className="flex centerdiv flex--align-center flex--center">
-    <h1>
-      There are no images for subreddit
-      &nbsp;
-      {forSubreddit}.
-      Maybe this subreddit is does not exist.
-    </h1>
+  <div className="no_images flex centerdiv flex--align-center flex--center">
+    <h3>
+      No images found for subreddit {forSubreddit}
+    </h3>
   </div>
 );

@@ -51,7 +51,7 @@ app.get('/api/:subReddit/prev_images/:id', (req: any, res: any) => {
     apiEndpoint = `${apiEndpoint}/${type}`;
   }
 
-  apiEndpoint = `${apiEndpoint}.json?before=${id}&count=25`;
+  apiEndpoint = `${apiEndpoint}.json?before=${id}&count=25&limit=50`;
 
   redditApi.get(apiEndpoint)
     .then((response: any) => handleResponse(response))
@@ -69,7 +69,7 @@ app.get('/api/:subReddit/next_images/:id', (req: any, res: any) => {
     apiEndpoint = `${apiEndpoint}/${type}`;
   }
 
-  apiEndpoint = `${apiEndpoint}.json?after=${id}&count=25`;
+  apiEndpoint = `${apiEndpoint}.json?after=${id}&count=25&limit=50`;
 
   redditApi.get(apiEndpoint)
     .then((response: any) => handleResponse(response))

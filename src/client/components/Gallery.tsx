@@ -19,6 +19,7 @@ export class Gallery extends React.Component<GalleryProps, {}> {
         {hasImagesToDisplay ? (
           <React.Fragment>
             {images.map((img: GalleryImage) => <Image key={img.id} data={img} />)}
+            <div className="last"></div>
           </React.Fragment>
         ) : (
           <NoImages forSubreddit={subreddit} />

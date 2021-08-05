@@ -12,9 +12,17 @@ export class GalleryPagination extends React.Component<GalleryPaginationProps, {
     const {onNextClick, onPrevClick, isNextDisabled, isPrevDisabled} = this.props;
 
     return (
-      <div>
-        {!isPrevDisabled && <span onClick={onPrevClick}>&lt;</span>}
-        {!isNextDisabled && <span onClick={onNextClick}>&gt;</span>}
+      <div className="gallery_pagination">
+        {!isPrevDisabled && (
+          <span className="gallery_pagination--prev" onClick={onPrevClick}>
+            <i className="fa fa-chevron-left" aria-hidden="true"></i>
+          </span>
+        )}
+        {!isNextDisabled && (
+          <span className="gallery_pagination--next" onClick={onNextClick}>
+            <i className="fa fa-chevron-right" aria-hidden="true"></i>
+          </span>
+        )}
       </div>
     )
   }

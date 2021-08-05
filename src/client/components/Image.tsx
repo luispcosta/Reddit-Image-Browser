@@ -1,5 +1,4 @@
 import React from 'react';
-import {ImageDescription} from './ImageDescription';
 import {FullscreenImage} from './FullscreenImage';
 import {GalleryImage} from '../types/GalleryImage';
 
@@ -8,32 +7,12 @@ interface ImageProps {
 };
 
 interface ImageState {
-  onImageHover: boolean,
   fullScreen: boolean,
-  url: string,
 };
 
 export class Image extends React.Component<ImageProps, ImageState> {
   state = {
-    onImageHover: false,
     fullScreen: false,
-    url: "",
-  }
-
-  onImageMouseLeave = (event: Event) => {
-    event.preventDefault();
-
-    this.setState({
-      onImageHover: false,
-    });
-  }
-
-  onImageMouseEnter = (event: Event) => {
-    event.preventDefault();
-
-    this.setState({
-      onImageHover: true,
-    });
   }
 
   openModalBox = () => {
@@ -41,55 +20,42 @@ export class Image extends React.Component<ImageProps, ImageState> {
 
     this.setState({
       fullScreen: true,
-      url: data.fullScreenUrl,
     });
   }
 
   closeFullScreen = () => {
     this.setState({
       fullScreen: false,
-      url: "",
-      onImageHover: false,
     });
   }
 
+  handleOnImageClick = () => {
+    this.setState({
+      fullScreen: true,
+    })
+  }
+
   render() {
-    const {fullScreen, url, onImageHover} = this.state;
+    const {fullScreen} = this.state;
     const {data} = this.props;
 
     if (fullScreen) {
       return (
         <FullscreenImage
-          url={url}
+          image={data}
           closeFullScreen={this.closeFullScreen}
         />
       );
     }
 
     const styles = {
-      backgroundImage: `url("${data.url}")`,
+      backgroundImage: `url("${data.fullScreenUrl}")`,
     };
-
-    if (onImageHover === true) {
-      return (
-        <button
-          type="button"
-          className="reddit_image"
-          onClick={this.openModalBox}
-          onMouseLeave={this.onImageMouseLeave}
-          onMouseEnter={this.onImageMouseEnter}
-          style={styles}
-        >
-          <ImageDescription image={data} />
-        </button>
-      );
-    }
 
     return (
       <div
         className="reddit_image"
-        onMouseLeave={this.onImageMouseLeave}
-        onMouseEnter={this.onImageMouseEnter}
+        onClick={this.handleOnImageClick}
         style={styles}
       />
     );
